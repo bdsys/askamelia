@@ -36,6 +36,8 @@
     - cdk watch --no-hotswap
         - since cdk watch uses hotswap style deployments by default, you must
             specify no hotswap to change the deploy qualification behavior.
+    - cdk destroy
+        - Destroys the CDK stack. Not the bootstrap.
 
 * Bootstrap AWS account with CDK resources
     - cdk bootstrap
@@ -53,3 +55,4 @@
         - id: CDK uses the Id as a unique value to create a cloudformation id.
         - **kwargs: Sometimes optional wildcard inputs used to control parts
             of the construct (E.g. runtime, code, handler, etc.)
+

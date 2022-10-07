@@ -9,6 +9,10 @@ from aws_cdk import (
 # # default <cdk_base>/cdk_workshop/cdk_workshop_stack.py
 from .hitcounter import HitCounter
 
+# Third party python package "cdk-dynamo-table-view==0.2.0"
+from cdk_dynamo_table_view import TableViewer
+
+
 class CdkWorkshopStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
@@ -22,6 +26,8 @@ class CdkWorkshopStack(Stack):
             handler='hello.handler', # <cdk_folder>/lambda/hello.py
         )
         
+        # Brings HitCounter class from .hitcounter.py in so we can access the
+        # # resources in it.
         hello_with_counter = HitCounter(
             self, 'HelloHitCounter',
             downstream=my_lambda,
@@ -31,4 +37,10 @@ class CdkWorkshopStack(Stack):
             self, 'Endpoint',
             # handler=my_lambda,
             handler=hello_with_counter._handler,
+        )
+
+        TableViewer(
+            self, 'ViewHitCounter',
+            title='Hello Hits',
+            table = hello_with_counter.table,
         )
