@@ -19,4 +19,4 @@ venv.bak/
 
 # CDK Context & Staging files
 .cdk.staging/
-cdk.out/
+# cdk.out/
