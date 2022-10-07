@@ -29,7 +29,7 @@ class WorkshopPipelineStack(Stack):
                     "ls", # list dir to show whats up
                     "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
                     "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
-                    "cdk synth",
+                    "cdk synth", 
                 ]
             ),
         )
