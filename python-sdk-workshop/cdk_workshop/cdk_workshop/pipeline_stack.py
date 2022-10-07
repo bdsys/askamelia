@@ -26,12 +26,13 @@ class WorkshopPipelineStack(Stack):
                 # primaryOutputDirectory = "python-sdk-workshop/cdk_workshop/cdk.out",
                 
                 commands=[
-                    "mkdir cdk.out",
                     "cd python-sdk-workshop/cdk_workshop/", # move to CDK base
                     "ls", # list dir to show whats up
                     "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
                     "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
-                    "cdk synth", 
+                    # "cdk synth",
+                    # "cdk synth 'python-sdk-workshop/cdk_workshop/**'"
+                    "cdk synth 'python-sdk-workshop/cdk_workshop/*'"
                 ],
             ),
         )
