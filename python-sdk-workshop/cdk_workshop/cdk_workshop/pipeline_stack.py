@@ -31,5 +31,6 @@ class WorkshopPipelineStack(Stack):
                     "cdk synth",
                 ],
                 primary_output_directory='python-sdk-workshop/cdk_workshop/cdk.out',
+                # primary_output_directory='cdk_workshop/cdk.out',
             ),
         )
