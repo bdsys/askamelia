@@ -67,3 +67,4 @@ class CdkWorkshopStack(Stack):
             self, 'TableViewerUrl',
             value=tv_gateway.endpoint
         )
+        
