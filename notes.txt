@@ -56,4 +56,5 @@
         - **kwargs: Sometimes optional wildcard inputs used to control parts
             of the construct (E.g. runtime, code, handler, etc.)
 
-git remote add cicd ssh://git-codecommit.us-west-2.amazonaws.com/v1/repos/WorkshopRepo
+* Added the following value to the context hash table in cdk.json to correct permissions issues:
+    - "@aws-cdk/core:newStyleStackSynthesis": true,
