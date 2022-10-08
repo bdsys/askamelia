@@ -7,37 +7,13 @@
         "file": "tree.json"
       }
     },
-    "WorkshopPipelineStack.assets": {
-      "type": "cdk:asset-manifest",
-      "properties": {
-        "file": "WorkshopPipelineStack.assets.json",
-        "requiresBootstrapStackVersion": 6,
-        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
-      }
-    },
     "WorkshopPipelineStack": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
         "templateFile": "WorkshopPipelineStack.template.json",
-        "validateOnSynth": false,
-        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
-        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/36997c1a3ec30c88d938bbb181f24e6da2c19ef9a66748757febc84765bd0220.json",
-        "requiresBootstrapStackVersion": 6,
-        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
-        "additionalDependencies": [
-          "WorkshopPipelineStack.assets"
-        ],
-        "lookupRole": {
-          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
-          "requiresBootstrapStackVersion": 8,
-          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
-        }
+        "validateOnSynth": false
       },
-      "dependencies": [
-        "WorkshopPipelineStack.assets"
-      ],
       "metadata": {
         "/WorkshopPipelineStack/WorkshopRepo/Resource": [
           {
@@ -163,18 +139,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadataAvailable"
-          }
-        ],
-        "/WorkshopPipelineStack/BootstrapVersion": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "BootstrapVersion"
-          }
-        ],
-        "/WorkshopPipelineStack/CheckBootstrapVersion": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CheckBootstrapVersion"
           }
         ]
       },
