@@ -30,6 +30,6 @@ class WorkshopPipelineStack(Stack):
                     "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
                     "cdk synth",
                 ],
-                primary_output_directory='python-sdk-workshop/cdk_workshop/cdk.out',
+                primary_output_directory='python-sdk-workshop/cdk_workshop',
             ),
         )
