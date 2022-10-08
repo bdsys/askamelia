@@ -1,0 +1,71 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "amelia kat",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "HelloWorldIntent",
+                    "slots": [],
+                    "samples": [
+                        "hello",
+                        "how are you",
+                        "say hi world",
+                        "say hi",
+                        "hi",
+                        "say hello world",
+                        "say hello"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "howOld",
+                    "slots": [],
+                    "samples": [
+                        "how old is she",
+                        "how old she is"
+                    ]
+                },
+                {
+                    "name": "howManyMonths",
+                    "slots": [],
+                    "samples": [
+                        "how many months old is she",
+                        "how many months is she"
+                    ]
+                },
+                {
+                    "name": "howManyWeeks",
+                    "slots": [],
+                    "samples": [
+                        "how many weeks old she is",
+                        "how many weeks she is"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                }
+            ],
+            "types": []
+        }
+    }
+}
