@@ -1,10 +1,25 @@
 {
   "version": "20.0.0",
   "artifacts": {
+    "assembly-WorkshopPipelineStack-Deploy": {
+      "type": "cdk:cloud-assembly",
+      "properties": {
+        "directoryName": "assembly-WorkshopPipelineStack-Deploy",
+        "displayName": "WorkshopPipelineStack/Deploy"
+      }
+    },
     "Tree": {
       "type": "cdk:tree",
       "properties": {
         "file": "tree.json"
+      }
+    },
+    "WorkshopPipelineStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "WorkshopPipelineStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
     "WorkshopPipelineStack": {
@@ -12,8 +27,24 @@
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
         "templateFile": "WorkshopPipelineStack.template.json",
-        "validateOnSynth": false
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3437618a7caeadd6bbcb83819edee2bfd2960b3218a85b7788b576fbd395fdcd.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "WorkshopPipelineStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
       },
+      "dependencies": [
+        "WorkshopPipelineStack.assets"
+      ],
       "metadata": {
         "/WorkshopPipelineStack/WorkshopRepo/Resource": [
           {
@@ -129,6 +160,30 @@
             "data": "PipelineUpdatePipelineSelfMutationDAA41400"
           }
         ],
+        "/WorkshopPipelineStack/Pipeline/Assets/FileRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineAssetsFileRole59943A77"
+          }
+        ],
+        "/WorkshopPipelineStack/Pipeline/Assets/FileRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineAssetsFileRoleDefaultPolicy14DB8755"
+          }
+        ],
+        "/WorkshopPipelineStack/Pipeline/Assets/FileAsset1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineAssetsFileAsset185A67CB4"
+          }
+        ],
+        "/WorkshopPipelineStack/Pipeline/Assets/FileAsset2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineAssetsFileAsset24D2D639B"
+          }
+        ],
         "/WorkshopPipelineStack/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
@@ -139,6 +194,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/WorkshopPipelineStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/WorkshopPipelineStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
           }
         ]
       },

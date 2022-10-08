@@ -1,6 +1,7 @@
 from constructs import Construct
 from aws_cdk import (
     Stack,
+    CfnOutput,
     aws_lambda as _lambda,
     aws_apigateway as apigw,
 )
@@ -14,6 +15,16 @@ from cdk_dynamo_table_view import TableViewer
 
 
 class CdkWorkshopStack(Stack):
+    
+    # Properties used to self-reference stack resources for CFN app stack
+    # # outputs.
+    @property
+    def hc_endpoint(self):
+        return self._hc_endpoint
+
+    @property
+    def hc_viewer_url(self):
+        return self._hc_viewer_url
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -33,14 +44,26 @@ class CdkWorkshopStack(Stack):
             downstream=my_lambda,
         )
         
-        apigw.LambdaRestApi(
+        hello_gateway = apigw.LambdaRestApi(
             self, 'Endpoint',
             # handler=my_lambda,
             handler=hello_with_counter._handler,
         )
 
-        TableViewer(
+        tv_gateway = TableViewer(
             self, 'ViewHitCounter',
             title='Hello Hits',
             table = hello_with_counter.table,
+        )
+
+        # Adds CFN outputs to the CDK application stack deployed by pipeline
+        # # stage.
+        self._hc_endpoint = CfnOutput(
+            self, 'GatewayUrl',
+            value=hello_gateway.url
+        )
+
+        self._hc_viewer_url = CfnOutput(
+            self, 'TableViewerUrl',
+            value=tv_gateway.endpoint
         )
