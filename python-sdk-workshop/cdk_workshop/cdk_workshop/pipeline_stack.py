@@ -39,4 +39,3 @@ class WorkshopPipelineStack(Stack):
         
         deploy = WorkshopPipelineStage(self, "Deploy")
         deploy_stage = pipeline.add_stage(deploy)
-
