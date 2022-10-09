@@ -18,7 +18,7 @@ class CdkStack(Stack):
             self, 'AskAmeliaHndler',
             runtime=_lambda.Runtime.PYTHON_3_9,
             code=_lambda.Code.from_asset('lambda'),
-            handler='handler.handler', # <cdk_folder>/lambda/handler.py
+            handler='handler.lambda_handler', # <cdk_folder>/lambda/handler.py
             environment={
                 'RESERVED_KEY': "RESERVED_VALUE",
             }
