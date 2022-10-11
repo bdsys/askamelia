@@ -61,7 +61,7 @@ def intent_scheme(event):
 
 def howOldGeneral(birthdate_formatted):
     reprompt_MSG = "Do you want to hear Amelia Cat's age again?"
-    card_TITLE = "You've asked about Amelia's age. Ages less than 2 years will be reported in months."
+    card_TITLE = "You've asked about Amelia's age. Ages less than 2 years will be reported in months. Otherwise, the age will be reported in years and months."
     
     today_date = datetime.date.today()
     years_old = today_date.year - birthdate_formatted.year
@@ -84,7 +84,7 @@ def howOldGeneral(birthdate_formatted):
         if(weeks_difference == 0):
             string_response = f"Amelia Cat is {month_difference} months old exactly."
         else:
-            string_response = f"Amelia Cat is {month_difference} months and {weeks_difference} old."
+            string_response = f"Amelia Cat is {month_difference} months and {weeks_difference} weeks old."
 
     else:
         string_response = f"Something went wrong."
@@ -109,7 +109,7 @@ def howManyMonths(birthdate_formatted):
     if(weeks_difference == 0):
         string_response = f"Amelia Cat is {month_difference} months old exactly."
     else:
-        string_response = f"Amelia Cat is {month_difference} months and {weeks_difference} old."
+        string_response = f"Amelia Cat is {month_difference} months and {weeks_difference} weeks old."
     
     card_TEXT = string_response
     print(f"Returning string: {string_response}")

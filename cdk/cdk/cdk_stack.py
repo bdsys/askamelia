@@ -24,10 +24,10 @@ class CdkStack(Stack):
             }
         )
         
-        ddb.Table(
-            self, 'AskAmeliaDynamoTableProperties',
-            partition_key={'name': 'property', 'type': ddb.AttributeType.STRING},
-            removal_policy=RemovalPolicy.DESTROY # Dynamo tables aren't
-            # # destroyed with a stack is deleted. This property will override
-            # # CFN default and produce a destructive action.
-        )
+        # ddb.Table(
+        #     self, 'AskAmeliaDynamoTableProperties',
+        #     partition_key={'name': 'property', 'type': ddb.AttributeType.STRING},
+        #     removal_policy=RemovalPolicy.DESTROY # Dynamo tables aren't
+        #     # # destroyed with a stack is deleted. This property will override
+        #     # # CFN default and produce a destructive action.
+        # )

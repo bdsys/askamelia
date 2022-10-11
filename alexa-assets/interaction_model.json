@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "amelia kat",
+            "invocationName": "amelia cat",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
@@ -63,6 +63,23 @@
                 {
                     "name": "AMAZON.NoIntent",
                     "samples": []
+                },
+                {
+                    "name": "favoriteColor",
+                    "slots": [],
+                    "samples": [
+                        "what her favorite color is",
+                        "what's her favorite color"
+                    ]
+                },
+                {
+                    "name": "favoriteTypeOfDog",
+                    "slots": [],
+                    "samples": [
+                        "what's her favorite type of dog",
+                        "what's her favorite kind of dog",
+                        "what's her favorite dog"
+                    ]
                 }
             ],
             "types": []
