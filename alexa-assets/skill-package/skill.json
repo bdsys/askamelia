@@ -1,0 +1,28 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "Ask Alexa about Amelia Cat",
+          "examplePhrases": [
+            "Alexa, ask amelia cat how old she is",
+            "Alexa, ask amelia cat how many months is she",
+            "Alexa, ask amelia cat how many weeks old she is",
+            "Alexa, ask amelia cat what her favorite kind of dog is",
+            "Alexa, ask amelia cat what her favorite color is"
+          ],
+          "name": "ask amelia cat",
+          "description": "Ask Alexa about Amelia Cat detailed"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Try using the phrases included in the skill preview..",
+      "category": "FRIENDS_AND_FAMILY",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {}
+    },
+    "manifestVersion": "1.0"
+  }
+}

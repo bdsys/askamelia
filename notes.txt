@@ -58,3 +58,73 @@
 
 * Added the following value to the context hash table in cdk.json to correct permissions issues:
     - "@aws-cdk/core:newStyleStackSynthesis": true,
+
+* Make a CDK app
+    - cdk init sample-app --language python
+
+* Write out package requirements
+    - requirements.txt in base dir
+
+* activate venv
+    - source .venv/bin/activate
+
+* install required packages in venv
+    - pip install -r requirements.txt
+
+* app.py is the entry point. It doesn't need to be edited much.
+
+* CDK tool:
+    - cdk ls
+        - shows app in directory with cdk.json file
+    - cdk bootstrap
+        - Builds required AWS resources into account the first time CDK is used
+            to build a project in said account.
+    - cdk synth
+        - Synthesizes CFN stack based on CDK project
+    - cdk diff
+        - Shows the difference between CDK project and deployed resources
+    - cdk deploy
+        - Deploys the synthesized CFN stack from "cdk synth"
+    - cdk deploy --hotswap
+        - Used in development to quickly deploy Lambda code changes by
+            deliberately introducing drift to generate a change.
+    - cdk watch
+        - Watches CDK resource and lambda code files for changes. Deploys a
+            hotswap style deployment upon qualified change.
+            Can be controlled in cdk.json file, which controls which files are
+            considered for deploy qualification relative to the location of
+            cdk.json.
+    - cdk watch --no-hotswap
+        - since cdk watch uses hotswap style deployments by default, you must
+            specify no hotswap to change the deploy qualification behavior.
+    - cdk destroy
+        - Destroys the CDK stack. Not the bootstrap.
+
+* Bootstrap AWS account with CDK resources
+    - cdk bootstrap
+    
+* Note on Lambda functions in CDK:
+    - The handler code is loaded from the "<cdk_folder>/lambda/" relative to 
+        where you execute cdk from, which is the project’s root directory.
+
+* CDK constructs
+    - Cloud components used together to make the CDK app's resources
+    - Construct disection of inputs: (scope, id, **kwargs)
+        - scope: Constructs are always in the context (scope) of another
+            construct.
+        This can be itself (self) or another construct.
+        - id: CDK uses the Id as a unique value to create a cloudformation id.
+        - **kwargs: Sometimes optional wildcard inputs used to control parts
+            of the construct (E.g. runtime, code, handler, etc.)
+
+* Added the following value to the context hash table in cdk.json to correct permissions issues:
+    - "@aws-cdk/core:newStyleStackSynthesis": true,
+
+* Using the Alexa CLI tool
+    - Install:
+        - npm install -g ask-cli
+    - Configure:
+        - ask configure --no-browser
+
+* Django powered web app:
+- https://help.pythonanywhere.com/pages/FollowingTheDjangoTutorial/
