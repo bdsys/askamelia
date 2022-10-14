@@ -7,6 +7,7 @@ from aws_cdk import (
 )
 
 from cdk.pipeline_stage import PipelineStage
+# from cdk.pipeline_stage import PipelineStage, PipelineStageWebInfra
 
 class PipelineStack(Stack):
 
@@ -36,5 +37,7 @@ class PipelineStack(Stack):
             ),
         )
         
-        deploy = PipelineStage(self, "Deploy")
-        deploy_stage = pipeline.add_stage(deploy)
+        deploy_base_infra = PipelineStage(self, "deploy-base-infra")
+        # deploy_web_infra = PipelineStageWebInfra(self, "deploy-web-infra")
+        deploy_stage = pipeline.add_stage(deploy_base_infra)
+        # deploy_stage_web_infra = pipeline.add_stage(deploy_web_infra)

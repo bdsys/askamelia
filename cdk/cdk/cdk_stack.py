@@ -92,6 +92,18 @@ class CdkStack(Stack):
             string_value ="Initial parameter value",
         )
         
+        instance_type_front_web = ssm.StringParameter(self, "FrontWebInstanceType",
+            parameter_name = 'instance_type_front_web',
+            description = 'Family.size instance type for web front EC2 instances.',
+            string_value ="Initial parameter value",
+        )
+        
+        front_web_ami_id = ssm.StringParameter(self, "FrontWebAmiId",
+            parameter_name = 'front_web_ami_id',
+            description = 'AMI Id for front web EC2 instances.',
+            string_value ="Initial parameter value",
+        )
+        
         self.client_secret_sm = secretsmanager.Secret(self, "ClientSecret",
             description = "Alexa developer client secret" 
         )

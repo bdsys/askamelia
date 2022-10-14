@@ -20,14 +20,14 @@ class AlexaSkillCdkStack(Stack):
         alexa_skill_infra = CdkStack(
             self, "AlexaSkillBucket",
         )
+        
     
-
         clientSecret = secretsmanager.Secret.from_secret_attributes(self, "ImportedSecretClientSecret",
-          secret_complete_arn = alexa_skill_infra.clientSecretSm
+          secret_complete_arn = alexa_skill_infra.clientSecretSm.secret_arn
         )
         
         refreshToken = secretsmanager.Secret.from_secret_attributes(self, "ImportedSecretRefreshToken",
-          secret_complete_arn = alexa_skill_infra.refreshTokenSm
+          secret_complete_arn = alexa_skill_infra.refreshTokenSm.secret_arn
         )
       
         alexa.CfnSkill(
