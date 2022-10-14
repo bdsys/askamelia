@@ -65,13 +65,13 @@ class CdkStack(Stack):
             )
         
         
-        # ddb.Table(
-        #     self, 'AskAmeliaDynamoTableProperties',
-        #     partition_key={'name': 'property', 'type': ddb.AttributeType.STRING},
-        #     removal_policy=RemovalPolicy.DESTROY # Dynamo tables aren't
-        #     # # destroyed with a stack is deleted. This property will override
-        #     # # CFN default and produce a destructive action.
-        # )
+        ddb.Table(
+            self, 'AskAmeliaDynamoTableProperties',
+            partition_key={'name': 'property', 'type': ddb.AttributeType.STRING},
+            removal_policy=RemovalPolicy.DESTROY # Dynamo tables aren't
+            # # destroyed with a stack is deleted. This property will override
+            # # CFN default and produce a destructive action.
+        )
         
         # Parameter and secret resources needed for upstream stacks
         vendor_id_param = ssm.StringParameter(self, "VendorIdParameter",
@@ -101,6 +101,18 @@ class CdkStack(Stack):
         front_web_ami_id = ssm.StringParameter(self, "FrontWebAmiId",
             parameter_name = 'front_web_ami_id',
             description = 'AMI Id for front web EC2 instances.',
+            string_value ="Initial parameter value",
+        )
+        
+        bastion_source_cidr = ssm.StringParameter(self, "BastionSourceCidr",
+            parameter_name = 'bastion_source_cidr',
+            description = 'Source IPv4 CIDR for Bastion source.',
+            string_value ="Initial parameter value",
+        )
+        
+        ssh_key_name_front_web = ssm.StringParameter(self, "SshKeyNameFrontWeb",
+            parameter_name = 'ssh_key_name_front_web',
+            description = 'SSH Key EC2 resource for front web.',
             string_value ="Initial parameter value",
         )
         

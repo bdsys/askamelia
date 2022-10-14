@@ -37,7 +37,7 @@ class PipelineStack(Stack):
             ),
         )
         
-        deploy_base_infra = PipelineStage(self, "deploy-base-infra")
+        deploy_base_infra = PipelineStage(self, "Deploy")
         # deploy_web_infra = PipelineStageWebInfra(self, "deploy-web-infra")
         deploy_stage = pipeline.add_stage(deploy_base_infra)
         # deploy_stage_web_infra = pipeline.add_stage(deploy_web_infra)
