@@ -21,7 +21,11 @@
       "distributionCountries": []
     },
     "apis": {
-      "custom": {}
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-west-2:130012316542:function:Deploy-AskAmeliaAlexaAppI-AskAmeliaHandler55519923-H5gsjbrpyMdA"
+        }
+      }
     },
     "manifestVersion": "1.0"
   }

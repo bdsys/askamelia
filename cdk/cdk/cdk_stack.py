@@ -8,12 +8,30 @@ from aws_cdk import (
     aws_dynamodb as ddb,
     aws_s3 as s3,
     aws_iam as iam,
+    aws_ssm as ssm,
+    aws_secretsmanager as secretsmanager,
     RemovalPolicy,
 )
 from constructs import Construct
 
 class CdkStack(Stack):
-
+    
+    @property
+    def skillBucket(self):
+        return self.skill_bucket
+        
+    @property
+    def skillBucketAccessRole(self):
+        return self.alexa_appkit_role
+        
+    @property
+    def clientSecretSm(self):
+        return self.client_secret_sm
+        
+    @property
+    def refreshTokenSm(self):
+        return self.refresh_token_sm
+        
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
@@ -33,7 +51,7 @@ class CdkStack(Stack):
         ### TBD
         
         # Alexa Role
-        alexa_appkit_role = iam.Role(
+        self.alexa_appkit_role = iam.Role(
             self, "AskAmeliaS3AlexaRole",
             assumed_by=iam.ServicePrincipal("alexa-appkit.amazon.com"),
             description="IAM Role for Alexa appkit to access S3.",
@@ -41,7 +59,7 @@ class CdkStack(Stack):
         
         # Define S3 bucket
         
-        skill_bucket = s3.Bucket(
+        self.skill_bucket = s3.Bucket(
             self, "AskAmeliaSkillAssetsBucket",
             encryption = s3.BucketEncryption.S3_MANAGED,
             )
@@ -55,5 +73,26 @@ class CdkStack(Stack):
         #     # # CFN default and produce a destructive action.
         # )
         
+        # Parameter and secret resources needed for upstream stacks
+        vendor_id_param = ssm.StringParameter(self, "VendorIdParameter",
+            parameter_name = 'vendor_id',
+            description = 'Alexa developer vendor Id',
+            string_value ="Initial parameter value",
+        )
+        
+        client_id_param = ssm.StringParameter(self, "ClientIdParameter",
+            parameter_name = 'client_id',
+            description = 'Alexa developer client Id',
+            string_value ="Initial parameter value",
+        )
+        
+        self.client_secret_sm = secretsmanager.Secret(self, "ClientSecret",
+            description = "Alexa developer client secret" 
+        )
+        
+        self.refresh_token_sm = secretsmanager.Secret(self, "RefreshToken",
+            description = "Alexa developer refresh token" 
+        )
+        
         # Permissions
-        skill_bucket.grant_read(alexa_appkit_role)
+        self.skill_bucket.grant_read(self.alexa_appkit_role)
