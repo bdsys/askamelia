@@ -86,6 +86,12 @@ class CdkStack(Stack):
             string_value ="Initial parameter value",
         )
         
+        vpc_id = ssm.StringParameter(self, "RegionalVpcIdFrontWebInfra",
+            parameter_name = 'vpc_id',
+            description = 'VPC Id for front web server EC2 infrastructure',
+            string_value ="Initial parameter value",
+        )
+        
         self.client_secret_sm = secretsmanager.Secret(self, "ClientSecret",
             description = "Alexa developer client secret" 
         )
