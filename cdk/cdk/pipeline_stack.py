@@ -1,4 +1,5 @@
 from constructs import Construct
+import aws_cdk as cdk
 from aws_cdk import (
     Stack,
     aws_codecommit as codecommit,
@@ -6,8 +7,8 @@ from aws_cdk import (
 
 )
 
-from cdk.pipeline_stage import PipelineStage
-# from cdk.pipeline_stage import PipelineStage, PipelineStageWebInfra
+# from cdk.pipeline_stage import PipelineStage
+from cdk.pipeline_stage import PipelineStage, PipelineStageWebInfra
 
 class PipelineStack(Stack):
 
@@ -37,7 +38,13 @@ class PipelineStack(Stack):
             ),
         )
         
-        deploy_base_infra = PipelineStage(self, "Deploy")
-        # deploy_web_infra = PipelineStageWebInfra(self, "deploy-web-infra")
+        # pipeline.add_stage(MyPipelineAppStage(self, "test",
+        #     env=cdk.Environment(account="111111111111", region="eu-west-1")))
+        
+        # Define environment info
+        env_dev = cdk.Environment(account="130012316542", region="us-west-2")
+        
+        deploy_base_infra = PipelineStage(self, "Deploy", env=env_dev)
+        deploy_web_infra = PipelineStageWebInfra(self, "deploy-web-infra", env=env_dev)
         deploy_stage = pipeline.add_stage(deploy_base_infra)
-        # deploy_stage_web_infra = pipeline.add_stage(deploy_web_infra)
+        deploy_stage_web_infra = pipeline.add_stage(deploy_web_infra)

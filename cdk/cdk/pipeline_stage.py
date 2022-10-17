@@ -12,9 +12,9 @@ class PipelineStage(Stage):
 
         service = CdkStack(self, 'AskAmeliaAlexaAppInfra')
 
-# class PipelineStageWebInfra(Stage):
+class PipelineStageWebInfra(Stage):
 
-#     def __init__(self, scope: Construct, id: str, **kwargs):
-#         super().__init__(scope, id, **kwargs)
+    def __init__(self, scope: Construct, id: str, **kwargs):
+        super().__init__(scope, id, **kwargs)
 
-#         web_infra = AlexaWebInfraCdkStack(self, 'AskAmeliaWebInfra') 
+        web_infra = AlexaWebInfraCdkStack(self, 'AskAmeliaWebInfra') 

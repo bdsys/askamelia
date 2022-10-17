@@ -10,6 +10,7 @@ from aws_cdk import (
     aws_iam as iam,
     aws_ssm as ssm,
     aws_secretsmanager as secretsmanager,
+    aws_sns as sns,
     RemovalPolicy,
 )
 from constructs import Construct
@@ -71,6 +72,10 @@ class CdkStack(Stack):
             removal_policy=RemovalPolicy.DESTROY # Dynamo tables aren't
             # # destroyed with a stack is deleted. This property will override
             # # CFN default and produce a destructive action.
+        )
+        
+        dev_email_topic = sns.Topic(
+            self, "dev_email_topic"
         )
         
         # Parameter and secret resources needed for upstream stacks
