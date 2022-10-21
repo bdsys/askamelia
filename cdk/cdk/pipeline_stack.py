@@ -33,7 +33,7 @@ class PipelineStack(Stack):
                     "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
                     "cdk --version", # Check on version of CDK for potential troubleshooting
                     "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
-                    "cdk synth",
+                    "cdk synth", # Builds CDK app subject
                 ],
                 primary_output_directory='cdk/cdk.out',
             ),

@@ -65,7 +65,7 @@ class CdkStack(Stack):
         # Properties table
         ask_amelia_property_ddb_table = ddb.Table(
             self, 'AskAmeliaDynamoTableProperties',
-            partition_key={'name': 'property', 'type': ddb.AttributeType.STRING},
+            partition_key={'name': 'subject', 'type': ddb.AttributeType.STRING},
             removal_policy=RemovalPolicy.DESTROY # Dynamo tables aren't
             # # destroyed with a stack is deleted. This property will override
             # # CFN default and produce a destructive action.
@@ -101,9 +101,6 @@ class CdkStack(Stack):
         # Delivery
         
         ask_amelia_alexa_app_api = apigateway.RestApi(self, "AskAmeliaAlexaAppApi")
-        
-        # resource: apigateway.Resource
-        # handler: lambda.Function
         
         ask_amelia_alexa_app_api.add_proxy(
             default_integration=apigateway.LambdaIntegration(api_get_ddb_table_by_pk),
