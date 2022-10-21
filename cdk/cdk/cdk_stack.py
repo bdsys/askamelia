@@ -11,6 +11,7 @@ from aws_cdk import (
     aws_ssm as ssm,
     aws_secretsmanager as secretsmanager,
     aws_sns as sns,
+    aws_apigateway as apigateway,
     RemovalPolicy,
 )
 from constructs import Construct
@@ -96,6 +97,21 @@ class CdkStack(Stack):
                 "ask_amelia_property_ddb_table": ask_amelia_property_ddb_table.table_name,
             }
         )
+        
+        # Delivery
+        
+        ask_amelia_alexa_app_api = apigateway.RestApi(self, "AskAmeliaAlexaAppApi")
+        
+        # resource: apigateway.Resource
+        # handler: lambda.Function
+        
+        ask_amelia_alexa_app_api.add_proxy(
+            default_integration=apigateway.LambdaIntegration(api_get_ddb_table_by_pk),
+        
+            # "false" will require explicitly adding methods on the `proxy` resource
+            any_method=True
+        )
+
 
         # Permissions
         # Alexa service principal perms to S3 bucket for Alexa app deployment
