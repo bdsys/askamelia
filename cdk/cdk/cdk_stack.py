@@ -99,15 +99,19 @@ class CdkStack(Stack):
         )
         
         # Delivery
-        
-        ask_amelia_alexa_app_api = apigateway.RestApi(self, "AskAmeliaAlexaAppApi")
-        
-        ask_amelia_alexa_app_api.add_proxy(
-            default_integration=apigateway.LambdaIntegration(api_get_ddb_table_by_pk),
-        
-            # "false" will require explicitly adding methods on the `proxy` resource
-            any_method=True
+
+        ask_amelia_alexa_app_api = apigateway.LambdaRestApi(self, "AskAmeliaAlexaAppApi",
+            handler = api_get_ddb_table_by_pk
         )
+        
+        # ask_amelia_alexa_app_api = apigateway.RestApi(self, "AskAmeliaAlexaAppApi")
+        
+        # ask_amelia_alexa_app_api.add_proxy(
+        #     default_integration=apigateway.LambdaIntegration(api_get_ddb_table_by_pk),
+        
+        #     # "false" will require explicitly adding methods on the `proxy` resource
+        #     any_method=True
+        # )
 
 
         # Permissions
