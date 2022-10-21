@@ -31,7 +31,7 @@ class PipelineStack(Stack):
                     "cd cdk/", # move to CDK base
                     "ls", # list dir to show whats up
                     "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
-                    # "cdk --version", # Check on version of CDK for potential troubleshooting
+                    "cdk --version", # Check on version of CDK for potential troubleshooting
                     "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
                     "cdk synth", # Builds CDK app subject
                 ],
