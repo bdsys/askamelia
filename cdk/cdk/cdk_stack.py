@@ -36,7 +36,43 @@ class CdkStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        # Defines an AWS Lambda resource
+        # Define IAM Roles
+        # Lambda execution role
+        api_get_ddb_table_by_pk_execution_role = iam.Role(
+            self, "APIGetDdbTableByPkExecutionRole",
+            assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"),
+            description="Lambda execution role for function APIGetDdbTableByPk"
+        )
+        
+        # Alexa Role
+        self.alexa_appkit_role = iam.Role(
+            self, "AskAmeliaS3AlexaRole",
+            assumed_by=iam.ServicePrincipal("alexa-appkit.amazon.com"),
+            description="IAM Role for Alexa appkit to access S3.",
+        )
+        
+        # Data tier
+        
+        # S3 bucket
+        # Alexa app assets bucket
+        self.skill_bucket = s3.Bucket(
+            self, "AskAmeliaSkillAssetsBucket",
+            encryption = s3.BucketEncryption.S3_MANAGED,
+            )
+        
+        # DDB Table
+        # Properties table
+        ask_amelia_property_ddb_table = ddb.Table(
+            self, 'AskAmeliaDynamoTableProperties',
+            partition_key={'name': 'property', 'type': ddb.AttributeType.STRING},
+            removal_policy=RemovalPolicy.DESTROY # Dynamo tables aren't
+            # # destroyed with a stack is deleted. This property will override
+            # # CFN default and produce a destructive action.
+        )
+
+        # App tier
+        # Lambda resources
+        # Alexa app handler
         _lambda.Function(
             self, 'AskAmeliaHandler',
             runtime=_lambda.Runtime.PYTHON_3_9,
@@ -47,37 +83,29 @@ class CdkStack(Stack):
             }
         )
         
-        # Define IAM Roles
-        # Lambda execution role
-        ### TBD
+        # DynamoDB Table get content with primary key
         
-        # Alexa Role
-        self.alexa_appkit_role = iam.Role(
-            self, "AskAmeliaS3AlexaRole",
-            assumed_by=iam.ServicePrincipal("alexa-appkit.amazon.com"),
-            description="IAM Role for Alexa appkit to access S3.",
+        api_get_ddb_table_by_pk = _lambda.Function(
+            self, 'APIGetDdbTableByPk',
+            runtime = _lambda.Runtime.PYTHON_3_9,
+            code = _lambda.Code.from_asset('lambda'),
+            role = api_get_ddb_table_by_pk_execution_role,
+            handler = 'api_get_ddb_table_by_pk.lambda_handler', # <cdk_folder>/lambda/api_get_ddb_table_by_pk.py
+            environment = {
+                'RESERVED_KEY': "RESERVED_VALUE",
+                "ask_amelia_property_ddb_table": ask_amelia_property_ddb_table.table_name,
+            }
         )
-        
-        # Define S3 bucket
-        
-        self.skill_bucket = s3.Bucket(
-            self, "AskAmeliaSkillAssetsBucket",
-            encryption = s3.BucketEncryption.S3_MANAGED,
-            )
-        
-        
-        ddb.Table(
-            self, 'AskAmeliaDynamoTableProperties',
-            partition_key={'name': 'property', 'type': ddb.AttributeType.STRING},
-            removal_policy=RemovalPolicy.DESTROY # Dynamo tables aren't
-            # # destroyed with a stack is deleted. This property will override
-            # # CFN default and produce a destructive action.
-        )
-        
-        dev_email_topic = sns.Topic(
-            self, "dev_email_topic"
-        )
-        
+
+        # Permissions
+        # Alexa service principal perms to S3 bucket for Alexa app deployment
+        self.skill_bucket.grant_read(self.alexa_appkit_role)
+    
+        ask_amelia_property_ddb_table.grant_read_write_data(api_get_ddb_table_by_pk)
+
+
+
+
         # Parameter and secret resources needed for upstream stacks
         vendor_id_param = ssm.StringParameter(self, "VendorIdParameter",
             parameter_name = 'vendor_id',
@@ -129,5 +157,6 @@ class CdkStack(Stack):
             description = "Alexa developer refresh token" 
         )
         
-        # Permissions
-        self.skill_bucket.grant_read(self.alexa_appkit_role)
+        dev_email_topic = sns.Topic(
+            self, "dev_email_topic"
+        )
