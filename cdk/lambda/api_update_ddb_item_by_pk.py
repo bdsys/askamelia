@@ -18,6 +18,7 @@ def lambda_handler(event, context):
     update_table_return = update_table_item_by_pk(
         os.environ['ask_amelia_property_ddb_table'],
         os.environ["ask_amelia_primary_key_static"],
+        os.environ["ask_amelia_primary_key_value_static"],
         "test_value",
         "69"
     )
@@ -48,11 +49,12 @@ def lambda_handler(event, context):
     }
 
 
-def update_table_item_by_pk(table, pk_value, update_key, update_value):
+def update_table_item_by_pk(table, pk_1, pk_value, update_key, update_value):
     
     print("Invoked function update_table_item_by_pk")
     print("Passed args:")
     print(f"table:{table}")
+    print(f"pk_1:{pk_1}")
     print(f"pk_value:{pk_value}")
     print(f"update_key: {update_key}")
     print(f"update_value: {update_value}")
@@ -61,7 +63,7 @@ def update_table_item_by_pk(table, pk_value, update_key, update_value):
     
     update_response = table.update_item(
         Key={
-            'subject': os.environ["ask_amelia_primary_key_static"],
+            f'{pk_1}': pk_value,
         },
         UpdateExpression=f"set {update_key} = :u_k",
         ExpressionAttributeValues={

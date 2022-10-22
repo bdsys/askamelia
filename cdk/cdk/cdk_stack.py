@@ -95,7 +95,8 @@ class CdkStack(Stack):
             environment = {
                 'RESERVED_KEY': "RESERVED_VALUE",
                 "ask_amelia_property_ddb_table": ask_amelia_property_ddb_table.table_name,
-                "ask_amelia_primary_key_static": "amelia_cat",
+                "ask_amelia_primary_key_static": "subject",
+                "ask_amelia_primary_key_value_static": "amelia_cat",
             }
         )
         

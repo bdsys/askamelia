@@ -15,6 +15,7 @@ def lambda_handler(event, context):
         
         get_items_response = get_table_items_by_pk(
             os.environ['ask_amelia_property_ddb_table'],
+            os.environ["ask_amelia_primary_key_static"],
             os.environ["ask_amelia_primary_key_value_static"],
         )
         
@@ -51,7 +52,7 @@ def lambda_handler(event, context):
     }
 
 
-def get_table_items_by_pk(table, pk_value):
+def get_table_items_by_pk(table, pk_1, pk_value):
     
     print("Invoked function get_table_items_by_pk")
     print("Passed args:")
@@ -60,9 +61,9 @@ def get_table_items_by_pk(table, pk_value):
 
     query_response = ddb_client.query(
         TableName=table,
-        KeyConditionExpression='subject = :subject',
+        KeyConditionExpression=f'{pk_1} = :{pk_1}',
         ExpressionAttributeValues={
-            ':subject': {'S': pk_value}
+            f':{pk_1}': {'S': pk_value}
         }
     )
     
