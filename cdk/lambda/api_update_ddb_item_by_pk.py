@@ -38,7 +38,7 @@ def lambda_handler(event, context):
     formatted_return = dict()
     
     formatted_return["status"] = "success"
-    formatted_return["operation_message"] = update_table_return
+    formatted_return["operation_message"] = update_table_return["Attributes"]
     
     http_status_code_return = 200
     http_body_return = json.dumps(formatted_return)
@@ -69,7 +69,9 @@ def update_table_item_by_pk(table, pk_1, pk_value, update_key, update_value):
         ExpressionAttributeValues={
             ':u_k': update_value
         },
-        ReturnValues="UPDATED_NEW"
+        ReturnValues="ALL_NEW"
+        # ALL_NEW - Returns all of the attributes of the item, as they appear after the UpdateItem operation.
+        # UPDATED_NEW - Returns only the updated attributes, as they appear after the UpdateItem operation.
     )
     
     

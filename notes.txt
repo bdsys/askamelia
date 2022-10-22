@@ -128,3 +128,34 @@
 
 * Django powered web app:
 - https://help.pythonanywhere.com/pages/FollowingTheDjangoTutorial/
+
+
+* Bootstrap web server
+# Setup git keys and clone repo
+vim .ssh/codecommit_rsa.pub
+vim .ssh/codecommit_rsa
+vim .ssh/config
+chmod 600 ../.ssh/config
+chmod 600 ../.ssh/config
+git clone ssh://git-codecommit.us-west-2.amazonaws.com/v1/repos/AskAmeliaRepo
+
+# Flask base
+##.https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login
+
+apt update
+apt upgrade -y
+reboot
+apt install python3 -y
+apt install python3-pip -y
+python3 -m pip install --upgrade pip
+pip3 install venv
+cd ~
+mkdir askamelia
+cd askamelia
+git clone x
+cd ~/askamelia/AskAmeliaRepo
+cd flask-auth-workshop/auth
+pip3 install -r requirements.txt
+export FLASK_APP=project
+export FLASK_DEBUG=1
+flask run --host=0.0.0.0
