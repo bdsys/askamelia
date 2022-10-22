@@ -161,4 +161,7 @@ echo "export FLASK_APP=project" >> ~/.profile
 echo "export FLASK_DEBUG=1" >> ~/.profile
 export FLASK_APP=project
 export FLASK_DEBUG=1
+cd AskAmeliaRepo/flask-auth-workshop/flask_auth_app
+echo "from project import db, create_app, models" >> create_sqlite_db.py
+echo "db.create_all(app=create_app()) # pass the create_app result so Flask-SQLAlchemy gets the configuration." >> create_sqlite_db.py
 flask run --host=0.0.0.0
