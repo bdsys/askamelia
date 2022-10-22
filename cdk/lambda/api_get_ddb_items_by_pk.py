@@ -15,7 +15,7 @@ def lambda_handler(event, context):
         
         get_items_response = get_table_items_by_pk(
             os.environ['ask_amelia_property_ddb_table'],
-            os.environ["ask_amelia_primary_key_static"],
+            os.environ["ask_amelia_primary_key_value_static"],
         )
         
         print(f"Items list sent back from get_table_items_by_pk: {get_items_response[0]}")
