@@ -39,11 +39,11 @@ class CdkStack(Stack):
 
         # Define IAM Roles
         # Lambda execution role
-        api_get_ddb_table_by_pk_execution_role = iam.Role(
-            self, "APIGetDdbTableByPkExecutionRole",
-            assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"),
-            description="Lambda execution role for function APIGetDdbTableByPk"
-        )
+        # api_get_ddb_items_by_pk_execution_role = iam.Role(
+        #     self, "APIGetDdbTableByPkExecutionRole",
+        #     assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"),
+        #     description="Lambda execution role for function APIGetDdbTableByPk"
+        # )
         
         # Alexa Role
         self.alexa_appkit_role = iam.Role(
@@ -78,48 +78,63 @@ class CdkStack(Stack):
             self, 'AskAmeliaHandler',
             runtime=_lambda.Runtime.PYTHON_3_9,
             code=_lambda.Code.from_asset('lambda'),
-            handler='handler.lambda_handler', # <cdk_folder>/lambda/handler.py
+            handler='alexa_ask_amelia.lambda_handler', # <cdk_folder>/lambda/alexa_ask_amelia.py
             environment={
                 'RESERVED_KEY': "RESERVED_VALUE",
             }
         )
         
-        # DynamoDB Table get content with primary key
+        # DynamoDB Table get item with primary key
         
-        api_get_ddb_table_by_pk = _lambda.Function(
-            self, 'APIGetDdbTableByPk',
+        api_get_ddb_items_by_pk = _lambda.Function(
+            self, 'APIGetDdbItemsByPk',
             runtime = _lambda.Runtime.PYTHON_3_9,
             code = _lambda.Code.from_asset('lambda'),
-            role = api_get_ddb_table_by_pk_execution_role,
-            handler = 'api_get_ddb_table_by_pk.lambda_handler', # <cdk_folder>/lambda/api_get_ddb_table_by_pk.py
+            # role = api_get_ddb_items_by_pk_execution_role,
+            handler = 'api_get_ddb_items_by_pk.lambda_handler', # <cdk_folder>/lambda/api_get_ddb_items_by_pk.py
             environment = {
                 'RESERVED_KEY': "RESERVED_VALUE",
                 "ask_amelia_property_ddb_table": ask_amelia_property_ddb_table.table_name,
+                "ask_amelia_primary_key_static": "amelia_cat",
+            }
+        )
+        
+        # DynamoDB Table update item with primary key
+        
+        api_update_ddb_item_by_pk = _lambda.Function(
+            self, 'APIUpdateDdbItemByPk',
+            runtime = _lambda.Runtime.PYTHON_3_9,
+            code = _lambda.Code.from_asset('lambda'),
+            handler = 'api_update_ddb_item_by_pk.lambda_handler', # <cdk_folder>/lambda/api_get_ddb_items_by_pk.py
+            environment = {
+                'RESERVED_KEY': "RESERVED_VALUE",
+                "ask_amelia_property_ddb_table": ask_amelia_property_ddb_table.table_name,
+                "ask_amelia_primary_key_static": "amelia_cat",
             }
         )
         
         # Delivery
 
-        ask_amelia_alexa_app_api = apigateway.LambdaRestApi(self, "AskAmeliaAlexaAppApi",
-            handler = api_get_ddb_table_by_pk
+        # API for getting DDB table items by PK
+        apigateway.LambdaRestApi(
+            self, 
+            "AskAmeliaAlexaAppApiGetItemsByPk",
+            handler = api_get_ddb_items_by_pk
         )
         
-        # ask_amelia_alexa_app_api = apigateway.RestApi(self, "AskAmeliaAlexaAppApi")
+        # API for updating DDB table item by PK
+        apigateway.LambdaRestApi(
+            self, 
+            "AskAmeliaAlexaAppApiUpdateItemByPk",
+            handler = api_update_ddb_item_by_pk
+        )
         
-        # ask_amelia_alexa_app_api.add_proxy(
-        #     default_integration=apigateway.LambdaIntegration(api_get_ddb_table_by_pk),
-        
-        #     # "false" will require explicitly adding methods on the `proxy` resource
-        #     any_method=True
-        # )
-
-
         # Permissions
         # Alexa service principal perms to S3 bucket for Alexa app deployment
         self.skill_bucket.grant_read(self.alexa_appkit_role)
     
-        ask_amelia_property_ddb_table.grant_read_write_data(api_get_ddb_table_by_pk)
-
+        ask_amelia_property_ddb_table.grant_read_write_data(api_get_ddb_items_by_pk)
+        ask_amelia_property_ddb_table.grant_read_write_data(api_update_ddb_item_by_pk)
 
 
 
