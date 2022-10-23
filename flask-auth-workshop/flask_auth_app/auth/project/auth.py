@@ -31,7 +31,7 @@ def signup_post():
         # Pass a flash message to the next view, in this case the redirect to signup function
         flash('That email address already exists in this system!')
         
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.signup'))
     
     else:
         
