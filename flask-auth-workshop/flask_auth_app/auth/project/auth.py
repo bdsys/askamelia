@@ -5,9 +5,31 @@ from . import db
 
 auth = Blueprint('auth', __name__)
 
+# Login for all HTTP methods besides POST
 @auth.route('/login')
 def login():
     return render_template('login.html')
+
+@auth.route('/login', methods=['POST'])
+def login_post():
+    
+    # Form input handling
+    email = request.form.get('email')
+    password = request.form.get('password')
+    remember = True if request.form.get('remember') else False
+    
+    # Query User table for first result of email matching email returned in form
+    user = User.query.filter_by(email=email).first()
+
+    # If the query doesn't return a user or the password is wrong
+    # These are combined to prevent a brute force email signups check
+    if not user or not check_password_hash(user.password, password):
+        flash('Email or password is wrong, please check your credentials and try again.')
+        return redirect(url_for('auth.login'))
+    
+    # If the query does return a user AND the password check passed from the above if,
+    # redirect to protected view "main.profile"
+    return redirect(url_for('main.profile'))
 
 # All HTTP methods besides POST
 @auth.route('/signup')

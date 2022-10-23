@@ -167,6 +167,8 @@ db.create_all(app=create_app()) # pass the create_app result so Flask-SQLAlchemy
 flask run --host=0.0.0.0
 
 
+
+
 * Misc info
 # copy SQLite DB to S3 for download and backup
 aws s3 cp project/db.sqlite s3://cf-templates-1q9pqh412qzwj-us-west-2
