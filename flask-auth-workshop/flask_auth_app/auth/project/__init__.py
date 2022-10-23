@@ -11,6 +11,11 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
     db.init_app(app)
+    
+    from . import models
+    
+    with app.app_context():
+        db.create_all()
 
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
