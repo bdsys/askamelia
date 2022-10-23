@@ -148,7 +148,7 @@ sudo reboot
 sudo apt install python3 -y
 sudo apt install python3-pip -y
 sudo python3 -m pip install --upgrade pip
-sudo apt install -y build-essential libssl-dev libffi-dev python3-dev python3-venv
+sudo apt install -y build-essential libssl-dev libffi-dev python3-dev python3-venv awscli
 cd ~
 mkdir askamelia
 cd askamelia
@@ -161,5 +161,12 @@ echo "export FLASK_APP=project" >> ~/.profile
 echo "export FLASK_DEBUG=1" >> ~/.profile
 export FLASK_APP=project
 export FLASK_DEBUG=1
-cd AskAmeliaRepo/flask-auth-workshop/flask_auth_app
+cd AskAmeliaRepo/flask-auth-workshop/flask_auth_app/auth
+from project import db, create_app, models
+db.create_all(app=create_app()) # pass the create_app result so Flask-SQLAlchemy gets the configuration.
 flask run --host=0.0.0.0
+
+
+* Misc info
+# copy SQLite DB to S3 for download and backup
+aws s3 cp project/db.sqlite s3://cf-templates-1q9pqh412qzwj-us-west-2
