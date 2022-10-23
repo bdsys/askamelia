@@ -12,7 +12,7 @@ def create_app():
 
     db.init_app(app)
     
-    from . import models
+    from models import User
     
     with app.app_context():
         db.create_all()
