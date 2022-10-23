@@ -156,14 +156,14 @@ git clone ssh://git-codecommit.us-west-2.amazonaws.com/v1/repos/AskAmeliaRepo
 cd AskAmeliaRepo/flask-auth-workshop/flask_auth_app/auth
 source bin/activate
 pip3 install -r requirements.txt
-echo "#Flask app env vars" >> ~/.profile
-echo "export FLASK_APP=project" >> ~/.profile
-echo "export FLASK_DEBUG=1" >> ~/.profile
+# bashrc is required for persistant env vars for ssm-user an non-interactive use
+echo "#Flask app env vars" >> ~/.bashrc
+echo "export FLASK_APP=project" >> ~/.bashrc
+echo "export FLASK_DEBUG=1" >> ~/.bashrc
 export FLASK_APP=project
 export FLASK_DEBUG=1
 cd AskAmeliaRepo/flask-auth-workshop/flask_auth_app/auth
-from project import db, create_app, models
-db.create_all(app=create_app()) # pass the create_app result so Flask-SQLAlchemy gets the configuration.
+python3 init_db.py
 flask run --host=0.0.0.0
 
 

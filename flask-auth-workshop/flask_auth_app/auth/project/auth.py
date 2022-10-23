@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user
 from .models import User
 from . import db
 
@@ -28,7 +29,10 @@ def login_post():
         return redirect(url_for('auth.login'))
     
     # If the query does return a user AND the password check passed from the above if,
+    # Vend a session and store it in the sessions table in the DB using user ORM object
+    ## and an indicator of whether or not the session is to be remembered
     # redirect to protected view "main.profile"
+    login_user(user, remember=remember)
     return redirect(url_for('main.profile'))
 
 # All HTTP methods besides POST
