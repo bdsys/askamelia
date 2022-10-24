@@ -153,17 +153,15 @@ cd ~
 mkdir askamelia
 cd askamelia
 git clone ssh://git-codecommit.us-west-2.amazonaws.com/v1/repos/AskAmeliaRepo
-cd AskAmeliaRepo/ask-amelia-web/aaw
-python3 -m venv aaw
+cd ~/askamelia/AskAmeliaRepo/ask-amelia-web/aaw
 source bin/activate
 pip3 install -r requirements.txt
 # bashrc is required for persistant env vars for ssm-user an non-interactive use
+echo "export FLASK_SECRET=$(echo $RANDOM | md5sum | head -c 32; echo)"
 echo "#Flask app env vars" >> ~/.bashrc
 echo "export FLASK_APP=project" >> ~/.bashrc
 echo "export FLASK_DEBUG=1" >> ~/.bashrc
-export FLASK_APP=project
-export FLASK_DEBUG=1
-cd AskAmeliaRepo/flask-auth-workshop/flask_auth_app/auth
+cd ~/askamelia/AskAmeliaRepo/ask-amelia-web/aaw
 python3 init_db.py
 flask run --host=0.0.0.0
 
