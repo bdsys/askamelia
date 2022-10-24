@@ -153,7 +153,8 @@ cd ~
 mkdir askamelia
 cd askamelia
 git clone ssh://git-codecommit.us-west-2.amazonaws.com/v1/repos/AskAmeliaRepo
-cd AskAmeliaRepo/flask-auth-workshop/flask_auth_app/auth
+cd AskAmeliaRepo/ask-amelia-web/aaw
+python3 -m venv aaw
 source bin/activate
 pip3 install -r requirements.txt
 # bashrc is required for persistant env vars for ssm-user an non-interactive use
