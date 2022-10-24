@@ -2,11 +2,11 @@ import os
 from flask import Flask # framework
 from flask_sqlalchemy import SQLAlchemy # ORM
 from flask_login import LoginManager # framework's session tracker
-from . import user_db
+from . import db
 from werkzeug.security import generate_password_hash
 
 # init SQLAlchemy so we can use it later in our models
-db = SQLAlchemy()
+db_init = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
@@ -15,7 +15,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    db.init_app(app)
+    db_init.init_app(app)
     
     # Define login manager
     login_manager = LoginManager() # Create object
@@ -66,8 +66,8 @@ def create_app():
         )
         
         # Perform query and commit using the new_user object
-        user_db.session.add(new_user)
-        user_db.session.commit()
+        db.session.add(new_user)
+        db.session.commit()
     
     else:
         
