@@ -40,36 +40,36 @@ def create_app():
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
     
-    # # If single user doesn't exist, create with env var password
+    # If single user doesn't exist, create with env var password
     
-    # single_user_email = os.getenv('FLASK_AAW_USER_EMAIL')
+    single_user_email = os.getenv('FLASK_AAW_USER_EMAIL')
     
-    # # Query User table for the first matching email, if any, as a dupe checker.
-    # user = User.query.filter_by(email=single_user_email).first()
+    # Query User table for the first matching email, if any, as a dupe checker.
+    user = User.query.filter_by(email=single_user_email).first()
     
-    # if user: # if dupe checker is not None, redirect back to signup page for a retry
+    if user: # if dupe checker is not None, redirect back to signup page for a retry
     
-    #     print("Single user for the app doesn't exist, creating...")
-    #     print(f"Email: {os.getenv('FLASK_AAW_USER_EMAIL')}")
+        print("Single user for the app doesn't exist, creating...")
+        print(f"Email: {os.getenv('FLASK_AAW_USER_EMAIL')}")
         
-    #     single_user_password = os.getenv('FLASK_AAW_USER_PASSWORD')
+        single_user_password = os.getenv('FLASK_AAW_USER_PASSWORD')
     
-    #     # Create object for query to User table to create a new row
-    #     new_user = User(
-    #         email=single_user_email, 
-    #         name="single-user",
-    #         password=generate_password_hash(
-    #             single_user_password,
-    #             method='sha256'
-    #         )
-    #     )
+        # Create object for query to User table to create a new row
+        new_user = User(
+            email=single_user_email, 
+            name="single-user",
+            password=generate_password_hash(
+                single_user_password,
+                method='sha256'
+            )
+        )
         
-    #     # Perform query and commit using the new_user object
-    #     db.session.add(new_user)
-    #     db.session.commit()
+        # Perform query and commit using the new_user object
+        db.session.add(new_user)
+        db.session.commit()
     
-    # else:
+    else:
         
-    #     print(f"Single user exists -- {os.getenv('FLASK_AAW_USER_EMAIL')}")
+        print(f"Single user exists -- {os.getenv('FLASK_AAW_USER_EMAIL')}")
 
     return app
