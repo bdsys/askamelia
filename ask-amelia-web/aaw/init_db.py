@@ -68,12 +68,12 @@ with app.app_context():
     
     if access_code_query: # if dupe checker is not None, redirect back to signup page for a retry
     
-        print(f"Access code exists -- {os.getenv('access_code_envvar_1')}")
+        print(f"Access code exists -- {access_code_envvar_1}")
 
     else:
 
         print("Access code for the app doesn't exist, creating...")
-        print(f"Access code: {os.getenv('access_code_envvar_1')}")
+        print(f"Access code: {access_code_envvar_1}")
         
         # Create object for query to User table to create a new row
         new_access_code = AccessCodes(
