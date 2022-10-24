@@ -72,6 +72,5 @@ def create_app():
             # Perform query and commit using the new_user object
             db.session.add(new_user)
             db.session.commit()            
-            
 
     return app
