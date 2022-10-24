@@ -1,14 +1,15 @@
 import os
 import db, create_app, models
 from .models import User
-from werkzeug.security import generate_password_hash
-
 print("Creating SQLite database...")
+
 db.create_all(app=create_app()) # pass the create_app result so Flask-SQLAlchemy gets the configuration.
+
 print("Created!")
 
 print("Seeding initial application dependencies...")
 print("Creating single user...")
+
 
 # If single user doesn't exist, create with env var password
 
