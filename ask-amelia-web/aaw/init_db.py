@@ -3,13 +3,15 @@ from project import db, create_app, models
 from project.models import User
 from werkzeug.security import generate_password_hash
 
-app = create_app()
-
 print("Creating SQLite database...")
-db.create_all(app) # pass the create_app result so Flask-SQLAlchemy gets the configuration.
+
+db.create_all(app=create_app()) # pass the create_app result so Flask-SQLAlchemy gets the configuration.
+
 print("Created!")
 
 print("Seeding initial application dependencies...")
+
+app = create_app()
 
 print("Creating single user...")
 
@@ -17,7 +19,7 @@ print("Creating single user...")
 # If single user doesn't exist, create with env var password
 
 single_user_email = os.getenv('FLASK_AAW_USER_EMAIL')
-app = create_app()
+
 with app.app_context():
     # Query User table for the first matching email, if any, as a dupe checker.
     user = User.query.filter_by(email=single_user_email).first()
