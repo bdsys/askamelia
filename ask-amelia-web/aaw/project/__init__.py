@@ -50,6 +50,10 @@ def create_app():
         
         if user: # if dupe checker is not None, redirect back to signup page for a retry
         
+            print(f"Single user exists -- {os.getenv('FLASK_AAW_USER_EMAIL')}")
+
+        else:
+
             print("Single user for the app doesn't exist, creating...")
             print(f"Email: {os.getenv('FLASK_AAW_USER_EMAIL')}")
             
@@ -67,10 +71,7 @@ def create_app():
             
             # Perform query and commit using the new_user object
             db.session.add(new_user)
-            db.session.commit()
-        
-        else:
+            db.session.commit()            
             
-            print(f"Single user exists -- {os.getenv('FLASK_AAW_USER_EMAIL')}")
 
     return app
