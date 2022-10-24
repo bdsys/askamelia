@@ -1,6 +1,6 @@
 import os
-from . import db, create_app, models
-from .models import User
+from project import db, create_app, models
+from project.models import User
 from werkzeug.security import generate_password_hash
 
 print("Creating SQLite database...")
