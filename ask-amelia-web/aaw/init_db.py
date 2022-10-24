@@ -17,7 +17,7 @@ print("Creating single user...")
 # If single user doesn't exist, create with env var password
 
 single_user_email = os.getenv('FLASK_AAW_USER_EMAIL')
-
+app = create_app()
 with app.app_context():
     # Query User table for the first matching email, if any, as a dupe checker.
     user = User.query.filter_by(email=single_user_email).first()
