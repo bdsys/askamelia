@@ -163,6 +163,7 @@ echo "export FLASK_DEBUG=1" >> ~/.bashrc
 echo "export FLASK_SECRET=$(echo $RANDOM | md5sum | head -c 32; echo)" >> ~/.bashrc
 echo "export FLASK_AAW_USER_EMAIL=ameliadev@bdsys.net" >> ~/.bashrc
 echo "export FLASK_AAW_USER_PASSWORD=timber" >> ~/.bashrc
+echo "export FLASK_AAW_ACESS_CODE_1=timber" >> ~/.bashrc
 cd ~/askamelia/AskAmeliaRepo/ask-amelia-web/aaw
 python3 init_db.py
 flask run --host=0.0.0.0
