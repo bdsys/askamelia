@@ -17,13 +17,10 @@
                 <div class="container">
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
-                            <a href="{{ url_for('main.index') }}" class="navbar-item">
-                                Home
-                            </a>
-                            
+
                             {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
-                                Profile
+                            <a href="{{ url_for('main.subject') }}" class="navbar-item">
+                                Ask Amelia
                             </a>
                             <a href="{{ url_for('auth.logout') }}" class="navbar-item">
                                 Logout
@@ -31,11 +28,8 @@
                             {% endif %}
                             
                             {% if not current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.login') }}" class="navbar-item">
-                                Login
-                            </a>
-                            <a href="{{ url_for('auth.signup') }}" class="navbar-item">
-                                Sign Up
+                            <a href="{{ url_for('auth.invitation') }}" class="navbar-item">
+                                Invitation
                             </a>
                             {% endif %}
                             
