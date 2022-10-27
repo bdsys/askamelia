@@ -113,4 +113,4 @@ def invitation_post():
 @login_required # Can't logout a user that isn't logged in
 def logout():
     logout_user() # Logs out user by invalidating their signed cookie on their client
-    return redirect(url_for('main.invitation'))
+    return redirect(url_for('auth.invitation'))
