@@ -61,11 +61,9 @@ def update(subject):
         json=aa_ddb_get_item_by_pk_request_body_dict,
     )
 
-    response_aa_api_get_db_item_by_pk = requests.get(aa_api_get_db_item_by_pk_url)
-    
     # if status code...
     
-    response_json_dict = response_aa_api_get_db_item_by_pk.json()
+    response_json_dict = response_aa_api_update_ddb_item_by_pk.json()
     
     print(f'DEBUG -- {subject}')
     print(f'DEBUG -- {response_json_dict}')
