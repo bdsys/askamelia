@@ -99,28 +99,28 @@ def update_post(subject):
     aa_ddb_update_dict_birthdate = { 
         "pk": subject,
         "pk_value": pk_value,
-        "update_key" = "birth_date"
+        "update_key": "birth_date"
         'update_value': form_input_birth_date,
     }
     
     aa_ddb_update_dict_favcolor = { 
         "pk": subject,
         "pk_value": pk_value,
-        "update_key" = "favorite_color",
+        "update_key": "favorite_color",
         'update_value': form_input_favorite_color,
     }
     
     aa_ddb_update_dict_testvalue = { 
         "pk": subject,
         "pk_value": pk_value,
-        "update_key" = "test_value",
+        "update_key": "test_value",
         'update_value': form_input_test_value,
     }
     
     aa_ddb_update_dict_favdogbreed = { 
         "pk": subject,
         "pk_value": pk_value,
-        "update_key" = "favorite_dog_breed",
+        "update_key": "favorite_dog_breed",
         'update_value': form_input_favorite_dog_breed,
     }
     
