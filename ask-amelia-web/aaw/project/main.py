@@ -67,7 +67,7 @@ def update(subject):
     
     response_json_dict = response_aa_api_get_db_item_by_pk.json()
     
-    print(d'DEBUG -- response_json_dict')
+    print(f'DEBUG -- {response_json_dict}')
     
     render_subject = response_json_dict['subject']
     render_birth_date = response_json_dict['birth_date']
