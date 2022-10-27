@@ -28,7 +28,7 @@ def subject():
     # Code here to show a simple list of subjects from DDB table
     # Singular right now.
     
-    aa_api_get_db_items_url = os.getenv('AA_API_GET_DB_ITEMK_URL')
+    aa_api_get_db_items_url = os.getenv('AA_API_GET_DB_ITEMS_URL')
     
     response_aa_api_get_db_items = requests.get(aa_api_get_db_items_url)
     
