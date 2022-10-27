@@ -9,7 +9,7 @@ ddb_client = boto3.client('dynamodb')
 def lambda_handler(event, context):
     try:
         print (f"event: {event}")
-        print (f"context {context}")
+        print (f"context {context}") 
         
         try:
         

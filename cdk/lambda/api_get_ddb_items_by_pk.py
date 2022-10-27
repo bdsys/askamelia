@@ -13,9 +13,10 @@ def lambda_handler(event, context):
         
         try:
         
-            print(f"Event PK: {event['pk']}")
+            print(f"Event PK: {event['body']}")
             
-            pk_arg = event['pk']
+            pk_arg = json.loads(event['body'])
+            pk_arg_object = pk_arg['pk']
         
         except Exception:
             print(Exception)
@@ -32,8 +33,7 @@ def lambda_handler(event, context):
         get_items_response = get_table_items_by_pk(
             os.environ['ask_amelia_property_ddb_table'],
             os.environ["ask_amelia_primary_key_static"],
-            # os.environ["ask_amelia_primary_key_value_static"],
-            pk_arg,
+            pk_arg_object,
         )
         
         print(f"Items list sent back from get_table_items_by_pk: {get_items_response[0]}")

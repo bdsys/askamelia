@@ -52,7 +52,7 @@ def update(subject):
     aa_api_update_ddb_item_by_pk_url = os.getenv('AA_API_UPDATE_DDB_ITEM_BY_PK_URL')
     
     aa_ddb_get_item_by_pk_request_body_dict = { 
-        "pk": subject,
+        'pk': subject,
     }
     
     response_aa_api_update_ddb_item_by_pk = requests.post(
@@ -98,29 +98,29 @@ def update_post(subject):
     aa_api_update_ddb_item_by_pk_url = os.getenv('AA_API_UPDATE_DDB_ITEM_BY_PK_URL')
 
     aa_ddb_update_dict_birthdate = { 
-        "pk": subject,
-        "pk_value": pk_value,
+        "pk": 'subject',
+        "pk_value": subject,
         "update_key": "birth_date",
         'update_value': form_input_birth_date,
     }
     
     aa_ddb_update_dict_favcolor = { 
-        "pk": subject,
-        "pk_value": pk_value,
+        "pk": 'subject',
+        "pk_value": subject,
         "update_key": "favorite_color",
         'update_value': form_input_favorite_color,
     }
     
     aa_ddb_update_dict_testvalue = { 
-        "pk": subject,
-        "pk_value": pk_value,
+        "pk": 'subject',
+        "pk_value": subject,
         "update_key": "test_value",
         'update_value': form_input_test_value,
     }
     
     aa_ddb_update_dict_favdogbreed = { 
-        "pk": subject,
-        "pk_value": pk_value,
+        "pk": 'subject',
+        "pk_value": subject,
         "update_key": "favorite_dog_breed",
         'update_value': form_input_favorite_dog_breed,
     }
