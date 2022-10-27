@@ -84,6 +84,19 @@ class CdkStack(Stack):
             }
         )
         
+        # DynamoDB Table get item scan
+        
+        api_get_ddb_items = _lambda.Function(
+            self, 'APIGetDdbItems',
+            runtime = _lambda.Runtime.PYTHON_3_9,
+            code = _lambda.Code.from_asset('lambda'),
+            handler = 'api_get_ddb_pks.lambda_handler', # <cdk_folder>/lambda/api_get_ddb_items_by_pk.py
+            environment = {
+                'RESERVED_KEY': "RESERVED_VALUE",
+                "ask_amelia_property_ddb_table": ask_amelia_property_ddb_table.table_name,
+            }
+        )
+        
         # DynamoDB Table get item with primary key
         
         api_get_ddb_items_by_pk = _lambda.Function(
@@ -116,25 +129,33 @@ class CdkStack(Stack):
         )
         
         # Delivery
-
+        
+        # API for getting DDB table PKs
+        apigateway.LambdaRestApi(
+            self, 
+            "AskAmeliaAlexaAppApiGetPks",
+            handler = api_get_ddb_items,
+        )
+        
         # API for getting DDB table items by PK
         apigateway.LambdaRestApi(
             self, 
             "AskAmeliaAlexaAppApiGetItemsByPk",
-            handler = api_get_ddb_items_by_pk
+            handler = api_get_ddb_items_by_pk,
         )
         
         # API for updating DDB table item by PK
         apigateway.LambdaRestApi(
             self, 
             "AskAmeliaAlexaAppApiUpdateItemByPk",
-            handler = api_update_ddb_item_by_pk
+            handler = api_update_ddb_item_by_pk,
         )
         
         # Permissions
         # Alexa service principal perms to S3 bucket for Alexa app deployment
         self.skill_bucket.grant_read(self.alexa_appkit_role)
     
+        ask_amelia_property_ddb_table.grant_read_write_data(api_get_ddb_items)
         ask_amelia_property_ddb_table.grant_read_write_data(api_get_ddb_items_by_pk)
         ask_amelia_property_ddb_table.grant_read_write_data(api_update_ddb_item_by_pk)
 

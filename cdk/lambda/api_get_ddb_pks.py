@@ -11,32 +11,13 @@ def lambda_handler(event, context):
         print (f"event: {event}")
         print (f"context {context}")
         
-        try:
+        print("Calling function get_table_items")
         
-            print(f"Event PK: {event['pk']}")
-            
-            pk_arg = event['pk']
-        
-        except Exception:
-            print(Exception)
-            http_status_code_return = 400
-            http_body_return = json.dumps("Bad request")
-            
-            return {
-                'statusCode': http_status_code_return,
-                'body': http_body_return
-            }
-        
-        print("Calling function get_table_items_by_pk")
-        
-        get_items_response = get_table_items_by_pk(
+        get_items_response = get_table_items(
             os.environ['ask_amelia_property_ddb_table'],
-            os.environ["ask_amelia_primary_key_static"],
-            # os.environ["ask_amelia_primary_key_value_static"],
-            pk_arg,
         )
         
-        print(f"Items list sent back from get_table_items_by_pk: {get_items_response[0]}")
+        print(f"Items list sent back from get_table_items: {get_items_response[0]}")
         print(f"count of items in list get_items_response: {len(get_items_response[0])}")
         # print(get_items_response[0]["birth_date"]['S'])
         
@@ -69,19 +50,14 @@ def lambda_handler(event, context):
     }
 
 
-def get_table_items_by_pk(table, pk_1, pk_value):
+def get_table_items(table):
     
     print("Invoked function get_table_items_by_pk")
     print("Passed args:")
     print(f"table:{table}")
-    print(f"pk_value:{pk_value}")
 
-    query_response = ddb_client.query(
+    query_response = ddb_client.scan(
         TableName=table,
-        KeyConditionExpression=f'{pk_1} = :{pk_1}',
-        ExpressionAttributeValues={
-            f':{pk_1}': {'S': pk_value}
-        }
     )
     
     print (f"response return will be: {query_response}")
