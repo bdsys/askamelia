@@ -85,31 +85,69 @@ def update(subject):
 @login_required # Decorator to protect route from unauthenticated users
 def update_post(subject):
 
+    # TODO -- Make this dynamic somehow...
     # Form input handling
     # form_input_subject = request.form.get('subject')
     form_input_subject = subject
-    form_input_birth_date = request.form.get('password')
+    form_input_birth_date = request.form.get('birthdate')
     form_input_favorite_color = request.form.get('favcolor')
     form_input_test_value = request.form.get('testvalue')
     form_input_favorite_dog_breed = request.form.get('favdogbreed')
     
     aa_api_update_ddb_item_by_pk_url = os.getenv('AA_API_UPDATE_DDB_ITEM_BY_PK_URL')
-    
-    aa_ddb_update_dict = { 
-        # "subject": form_input_subject,
-        "subject": subject,
-        'birth_date': form_input_birth_date,
-        'favorite_color': form_input_favorite_color,
-        'test_value': form_input_test_value,
-        'favorite_dog_breed': form_input_favorite_dog_breed,
+
+    aa_ddb_update_dict_birthdate = { 
+        "pk": subject,
+        "pk_value": pk_value,
+        "update_key" = "birth_date"
+        'update_value': form_input_birth_date,
     }
     
-    response_aa_api_update_ddb_item_by_pk = requests.post(
+    aa_ddb_update_dict_favcolor = { 
+        "pk": subject,
+        "pk_value": pk_value,
+        "update_key" = "favorite_color",
+        'update_value': form_input_favorite_color,
+    }
+    
+    aa_ddb_update_dict_testvalue = { 
+        "pk": subject,
+        "pk_value": pk_value,
+        "update_key" = "test_value",
+        'update_value': form_input_test_value,
+    }
+    
+    aa_ddb_update_dict_favdogbreed = { 
+        "pk": subject,
+        "pk_value": pk_value,
+        "update_key" = "favorite_dog_breed",
+        'update_value': form_input_favorite_dog_breed,
+    }
+    
+    response_aa_ddb_update_dict_birthdate = requests.post(
         aa_api_update_ddb_item_by_pk_url, 
-        json=aa_ddb_update_dict,
+        json=aa_ddb_update_dict_birthdate,
+    )
+
+    response_aa_ddb_update_dict_favcolor = requests.post(
+        aa_api_update_ddb_item_by_pk_url, 
+        json=aa_ddb_update_dict_favcolor,
+    )
+
+    response_aa_ddb_update_dict_testvalue = requests.post(
+        aa_api_update_ddb_item_by_pk_url, 
+        json=aa_ddb_update_dict_testvalue,
+    )
+
+    response_aa_ddb_update_dict_favdogbreed = requests.post(
+        aa_api_update_ddb_item_by_pk_url, 
+        json=aa_ddb_update_dict_favdogbreed,
     )
     
-    response_json_dict = response_aa_api_update_ddb_item_by_pk.json()
+    # Check status codes
+    # if status code ...
+    
+    response_json_dict = response_aa_ddb_update_dict_favdogbreed.json()
     response_json_dict_ddb_updated = response_json_dict['operation_message']
     
     render_subject = response_json_dict_ddb_updated['subject']
