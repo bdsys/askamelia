@@ -17,7 +17,7 @@ def create_app():
     
     # Define login manager
     login_manager = LoginManager() # Create object
-    login_manager.login_view = 'auth.login' # Tell login manager where sessions are vendored
+    login_manager.login_view = 'auth.invitation' # Tell login manager where sessions are vendored
     login_manager.init_app(app)
     
     # Allows references to the User table
