@@ -99,7 +99,7 @@ def update_post(subject):
     aa_ddb_update_dict_birthdate = { 
         "pk": subject,
         "pk_value": pk_value,
-        "update_key": "birth_date"
+        "update_key": "birth_date",
         'update_value': form_input_birth_date,
     }
     
