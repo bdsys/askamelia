@@ -10,28 +10,45 @@ def lambda_handler(event, context):
     print (f"event: {event}")
     print (f"context {context}")
 
+    try:
+    
+        print(f"Event PK: {event['pk']}")
+        print(f"Event pk_value: {event['pk_value']}")
+        print(f"Event update_key: {event['update_key']}")
+        print(f"Event update_value: {event['update_value']}")
+
+    except Exception:
+        print(Exception)
+        http_status_code_return = 400
+        http_body_return = json.dumps("Bad request")
+        
+        return {
+            'statusCode': http_status_code_return,
+            'body': http_body_return
+        }
+
+
     print("Calling function update_table_item_by_pk")
     
     # Function takes a single key and value to perform an upate
     
-    # Test case -- DISABLE ME ONCE THE FULL IMPLEMENTATION IS TESTED
+    # # Test case -- DISABLE ME ONCE THE FULL IMPLEMENTATION IS TESTED
+    # update_table_return = update_table_item_by_pk(
+    #     os.environ['ask_amelia_property_ddb_table'],
+    #     os.environ["ask_amelia_primary_key_static"],
+    #     os.environ["ask_amelia_primary_key_value_static"],
+    #     "test_value",
+    #     "69"
+    # )
+
+
     update_table_return = update_table_item_by_pk(
         os.environ['ask_amelia_property_ddb_table'],
-        os.environ["ask_amelia_primary_key_static"],
-        os.environ["ask_amelia_primary_key_value_static"],
-        "test_value",
-        "69"
-    )
-
-    # TODO -- THIS IS THE ACTUAL IMPLEMENTATION THAT NEEDS TO BE TESTED
-    # Body will be a JSON payload with keys representing properties of the item to be updated
-    # for key in event[keys]:
-    #     update_table_item_by_pk(
-    #         os.environ['ask_amelia_property_ddb_table'],
-    #         os.environ["ask_amelia_primary_key_static"],
-    #         key,
-    #         key[value]
-    #     )
+        event['pk'],
+        event['pk_value']
+        event['update_key'],
+        event['update_value'],
+        )
 
     print(f"Update function return: {update_table_return}")
 

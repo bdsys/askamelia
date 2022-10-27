@@ -28,13 +28,11 @@ def subject():
     # Code here to show a simple list of subjects from DDB table
     # Singular right now.
     
-    aa_api_get_db_item_by_pk_url = os.getenv('AA_API_GET_DB_ITEMS_BY_PK_URL')
+    aa_api_get_db_items_url = os.getenv('AA_API_GET_DB_ITEMK_URL')
     
-    aa_ddb_pk_value = "amelia_cat"
+    response_aa_api_get_db_items = requests.get(aa_api_get_db_items_url)
     
-    response_aa_api_get_db_item_by_pk = requests.get(aa_api_get_db_item_by_pk_url)
-    
-    response_json_dict = response_aa_api_get_db_item_by_pk.json()
+    response_json_dict = response_aa_api_get_db_items.json()
     
     render_subject = response_json_dict['subject']
     
@@ -43,18 +41,28 @@ def subject():
         render_subject=render_subject,
     )
 
-@main.route('/update')
+# https://pythonbasics.org/flask-tutorial-routes/
+@main.route('/update/<subject>')
 @login_required # Decorator to protect route from unauthenticated users
-def update():
+def update(subject):
     
     # Code here to render the DDB table and provide updatable fields and update button
     
     aa_api_get_db_item_by_pk_url = os.getenv('AA_API_GET_DB_ITEMS_BY_PK_URL')
     aa_api_update_ddb_item_by_pk_url = os.getenv('AA_API_UPDATE_DDB_ITEM_BY_PK_URL')
     
-    aa_ddb_pk_value = "amelia_cat"
+    aa_ddb_get_item_by_pk_request_body_dict = { 
+        "pk": subject,
+    }
     
+    response_aa_api_update_ddb_item_by_pk = requests.post(
+        aa_api_get_db_item_by_pk_url, 
+        json=aa_ddb_get_item_by_pk_request_body_dict,
+    )
+
     response_aa_api_get_db_item_by_pk = requests.get(aa_api_get_db_item_by_pk_url)
+    
+    # if status code...
     
     response_json_dict = response_aa_api_get_db_item_by_pk.json()
     
@@ -73,12 +81,13 @@ def update():
         render_favorite_dog_breed = render_favorite_dog_breed,
     )
     
-@main.route('/update', methods=['POST'])
+@main.route('/update/<subject>', methods=['POST'])
 @login_required # Decorator to protect route from unauthenticated users
-def update_post():
+def update_post(subject):
 
     # Form input handling
-    form_input_subject = request.form.get('subject')
+    # form_input_subject = request.form.get('subject')
+    form_input_subject = subject
     form_input_birth_date = request.form.get('password')
     form_input_favorite_color = request.form.get('favcolor')
     form_input_test_value = request.form.get('testvalue')
@@ -87,7 +96,8 @@ def update_post():
     aa_api_update_ddb_item_by_pk_url = os.getenv('AA_API_UPDATE_DDB_ITEM_BY_PK_URL')
     
     aa_ddb_update_dict = { 
-        "subject": form_input_subject,
+        # "subject": form_input_subject,
+        "subject": subject,
         'birth_date': form_input_birth_date,
         'favorite_color': form_input_favorite_color,
         'test_value': form_input_test_value,
@@ -98,7 +108,6 @@ def update_post():
         aa_api_update_ddb_item_by_pk_url, 
         json=aa_ddb_update_dict,
     )
-    
     
     response_json_dict = response_aa_api_update_ddb_item_by_pk.json()
     response_json_dict_ddb_updated = response_json_dict['operation_message']
