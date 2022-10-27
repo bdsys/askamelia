@@ -34,7 +34,8 @@ def subject():
     
     response_json_dict = response_aa_api_get_db_items.json()
     
-    render_subject = response_json_dict['subject']
+    # render_subject = response_json_dict['subject']
+    render_subject = response_json_dict
     
     return render_template(
         'subject.html',
