@@ -1,7 +1,7 @@
 # TODO --
 ## Needs input validations!
 
-import json, boto3, os
+import json, boto3, os, traceback
 from boto3.dynamodb.conditions import Key, Attr
 
 ddb_client = boto3.client('dynamodb')
@@ -49,8 +49,10 @@ def lambda_handler(event, context):
         http_status_code_return = 200
         http_body_return = json.dumps(formatted_list_return)
         
-    except Exception:
-        print(Exception)
+    except Exception as err:
+        stackTrace = traceback.format_exc()
+        print(err)
+        print(stackTrace)
         http_status_code_return = 500
         http_body_return = json.dumps("Unknown error has occured!")
 

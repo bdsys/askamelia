@@ -1,7 +1,7 @@
 # TODO --
 ## Needs input validations!
 
-import json, boto3, os
+import json, boto3, os, traceback
 
 ddb_resource = boto3.resource('dynamodb')  
 
@@ -11,14 +11,26 @@ def lambda_handler(event, context):
     print (f"context {context}")
 
     try:
+        print(f"Event PK: {event['body']}")
+        
+        body_content = json.loads(event['body'])
+        
+        pk_arg_object = body_content['pk']
+        pkvalue_arg_object = body_content['pk_value']
+        updatekey_arg_object = body_content['update_key']
+        updatevalue_arg_object = body_content['update_value']
     
-        print(f"Event PK: {event['pk']}")
-        print(f"Event pk_value: {event['pk_value']}")
-        print(f"Event update_key: {event['update_key']}")
-        print(f"Event update_value: {event['update_value']}")
+        print(f"Event PK: {pk_arg_object}")
+        print(f"Event pk_value: {pkvalue_arg_object}")
+        print(f"Event update_key: {updatekey_arg_object}")
+        print(f"Event update_value: {updatevalue_arg_object}")
+        
+            
 
-    except Exception:
-        print(Exception)
+    except Exception as err: 
+        stackTrace = traceback.format_exc()
+        print(err)
+        print(stackTrace)
         http_status_code_return = 400
         http_body_return = json.dumps("Bad request")
         
@@ -41,13 +53,12 @@ def lambda_handler(event, context):
     #     "69"
     # )
 
-
     update_table_return = update_table_item_by_pk(
         os.environ['ask_amelia_property_ddb_table'],
-        event['pk'],
-        event['pk_value'],
-        event['update_key'],
-        event['update_value'],
+        pk_arg_object,
+        pkvalue_arg_object,
+        updatekey_arg_object,
+        updatevalue_arg_object,
         )
 
     print(f"Update function return: {update_table_return}")
