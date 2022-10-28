@@ -8,9 +8,8 @@
 <br>
 <br>
 
-<p>- amelia_cat</p>
-<p>- timber</p>
-<p>- oakley</p>
-
+  {% for name in render_subject %}
+    <p>- {{ name }}</p>
+  {% endfor %}
 
 {% endblock %}
