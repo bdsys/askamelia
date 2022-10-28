@@ -169,10 +169,7 @@ echo "export AA_API_UPDATE_DDB_ITEM_BY_PK_URL=https://culn41pxyc.execute-api.us-
 echo "export AA_API_GET_DB_ITEMS_URL=https://b4ljiw6wf4.execute-api.us-west-2.amazonaws.com/prod" >> ~/.bashrc
 cd ~/askamelia/AskAmeliaRepo/ask-amelia-web/aaw
 python3 init_db.py
-nohup flask run --host=0.0.0.0 &
-
-
-
+nohup flask run --host=0.0.0.0 --port=5000 &
 
 * Misc info
 # copy SQLite DB to S3 for download and backup
