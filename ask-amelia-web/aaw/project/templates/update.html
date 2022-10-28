@@ -4,51 +4,50 @@
 <h1 class="title">
   Ask Amelia
 </h1>
-<section class="section">
-  <div class="columns is-centered">
-  <div class="column is-narrow">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Birth date (yyymmdd)</th>
-          <th>Favorite color</th>
-          <th>test_value</th>
-          <th>favorite_dog_breed</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <div class="control">
-              <input class="input" type="text" value="{{ render_subject }}" readonly>
-            </div>
-          </td>
-          <td>
-            <div class="control">
-              <input class="input is-primary" type="text" placeholder="{{ render_birth_date }}">
-            </div>
-          </td>
-          <td>
-            <input class="input is-primary" type="text" placeholder="{{ render_favorite_color }}">
-          </td>
-          <td>
-            <input class="input is-primary" type="text" placeholder="{{ render_test_value }}">
-          </td>
-          <td>
-            <input class="input is-primary" type="text" placeholder="{{ render_favorite_dog_breed }}">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  </div>
-</section>
-
+<form method="POST" action="/invitation">
+  <section class="section">
+    <div class="columns is-centered">
+    <div class="column is-narrow">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Birth date (yyymmdd)</th>
+            <th>Favorite color</th>
+            <th>test_value</th>
+            <th>favorite_dog_breed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="control">
+                <input class="input" type="text" value="{{ render_subject }}" readonly>
+              </div>
+            </td>
+            <td>
+              <div class="control">
+                <input class="input is-primary" name="form_input_birth_date" type="text" placeholder="{{ render_birth_date }}">
+              </div>
+            </td>
+            <td>
+              <input class="input is-primary" name="form_input_favorite_color" type="text" placeholder="{{ render_favorite_color }}">
+            </td>
+            <td>
+              <input class="input is-primary" name="form_input_test_value" type="text" placeholder="{{ render_test_value }}">
+            </td>
+            <td>
+              <input class="input is-primary" name="form_input_favorite_dog_breed" type="text" placeholder="{{ render_favorite_dog_breed }}">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </section>
+</form>
 <button class="button is-large is-fullwidth is-primary">
-  <a href="{{ aa_api_update_ddb_item_by_pk_url }}">
     Update
-  </a>  
 </button>
   
 {% endblock %}

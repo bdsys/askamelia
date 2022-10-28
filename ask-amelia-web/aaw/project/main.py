@@ -112,7 +112,6 @@ def update(subject):
         render_favorite_color = render_favorite_color,
         render_test_value = render_test_value,
         render_favorite_dog_breed = render_favorite_dog_breed,
-        aa_api_update_ddb_item_by_pk_url=aa_api_update_ddb_item_by_pk_url,
     )
     
 @main.route('/update/<subject>', methods=['POST'])
