@@ -28,7 +28,9 @@
       <tbody>
         <tr>
           <td>
-            <input class="input is-primary" type="text" placeholder="Timber">
+            <div class="control">
+              <input class="input" type="text" value="Timber" readonly>
+            </div>
           </td>
           <td>
             <input class="input is-primary" type="text" placeholder="20141206">
@@ -52,3 +54,8 @@
   
   
 {% endblock %}
+
+
+<div class="control">
+  <input class="input" type="text" value="This text is readonly" readonly>
+</div>
