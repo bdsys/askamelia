@@ -4,6 +4,8 @@
 <h1 class="title">
   Ask Amelia
 </h1>
+
+<form method="POST" action="/update/<subject>">
   <section class="section">
     <div class="columns is-centered">
     <div class="column is-narrow">
@@ -24,7 +26,6 @@
                 <input class="input" type="text" value="{{ render_subject }}" readonly>
               </div>
             </td>
-            <form method="POST" action="/update/<subject>">
               <td>
                 <div class="control">
                   <input class="input is-primary" name="birthdate" type="text" placeholder="{{ render_birth_date }}">
@@ -39,13 +40,13 @@
               <td>
                 <input class="input is-primary" name="favdogbreed" type="text" placeholder="{{ render_favorite_dog_breed }}">
               </td>
-            </form>
           </tr>
         </tbody>
       </table>
     </div>
     </div>
   </section>
+  </form>
 <button class="button is-large is-fullwidth is-primary" type="submit">Update</button>
 
 {% endblock %}
