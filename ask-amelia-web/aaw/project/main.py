@@ -63,7 +63,9 @@ def subject():
             character_count += 1
         
         print(f'Formatted name: {formatted_name}')
-        render_subjects.append(formatted_name)
+        print(f'Full name CSV: {formatted_name},{subject_name}')
+        
+        render_subjects.append(f'{formatted_name},{subject_name}')
         num_names +=1
     
     return render_template(
