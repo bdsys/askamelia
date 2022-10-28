@@ -9,10 +9,11 @@
 <br>
 
   {% for name in render_subjects %}
-    <!--<p>- {{ name }}</p>-->
-    <a href="{{ url_for('main.subject', subject=name) }}">
-        - {{ name }}
-    </a>
+    <p>
+      <a href="{{ url_for('main.update', subject=name) }}">
+          - {{ name }}
+      </a>
+    </p>
   {% endfor %}
 
 {% endblock %}
