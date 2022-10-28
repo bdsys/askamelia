@@ -49,12 +49,6 @@
 /*    opacity:0;*/
 /*}*/
 
-
-
-.successfully-saved.hide-opacity{
-    opacity: 0;
-}
-
 .successfully-saved {
     color: #FFFFFF;
     text-align: center;
@@ -64,6 +58,10 @@
     -ms-transition: opacity 3s ease-in-out;
     -o-transition: opacity 3s ease-in-out;
      opacity: 1;
+}
+
+.successfully-saved.hide-opacity{
+    opacity: 0.1;
 }
 
 /*.hidden {*/
