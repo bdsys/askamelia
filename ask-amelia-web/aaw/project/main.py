@@ -271,7 +271,8 @@ def create_post():
     
     return redirect(url_for('main.update', subject=subject))
 
-@main.route('/delete', methods=['POST'])
+# @main.route('/delete', methods=['POST'])
+@main.route('/delete')
 @login_required
 def delete_post(subject):
     flash(f"{subject} would be deleted...but not yet implemented.")
