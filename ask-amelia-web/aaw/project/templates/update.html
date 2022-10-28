@@ -13,7 +13,7 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Birth date (yyymmdd)</th>
+            <th>Birth date (yyyymmdd)</th>
             <th>Favorite color</th>
             <th>test_value</th>
             <th>favorite_dog_breed</th>
@@ -23,22 +23,22 @@
           <tr>
             <td>
               <div class="control">
-                <input class="input" type="text" value="{{ render_subject }}" readonly>
+                <input class="input" type="text" placeholder="{{ render_subject }}" disabled>
               </div>
             </td>
               <td>
                 <div class="control">
-                  <input class="input is-primary" name="birthdate" type="text" placeholder="{{ render_birth_date }}" value="{{ request.form['birthdate'] }}">
+                  <input class="input is-primary" name="birthdate" type="text" value="{{ render_birth_date }}">
                 </div>
               </td>
               <td>
-                <input class="input is-primary" name="favcolor" type="text" placeholder="{{ render_favorite_color }}" value="{{ request.form['favcolor'] }}">
+                <input class="input is-primary" name="favcolor" type="text" value="{{ render_favorite_color }}">
               </td>
               <td>
-                <input class="input is-primary" name="testvalue" type="text" placeholder="{{ render_test_value }}" value="{{ request.form['testvalue'] }}">
+                <input class="input is-primary" name="testvalue" type="text"value="{{ render_test_value }}">
               </td>
               <td>
-                <input class="input is-primary" name="favdogbreed" type="text" placeholder="{{ render_favorite_dog_breed }}" value="{{ request.form['favdogbreed'] }}">
+                <input class="input is-primary" name="favdogbreed" type="text"value="{{ render_favorite_dog_breed }}">
               </td>
           </tr>
         </tbody>
