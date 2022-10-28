@@ -6,16 +6,15 @@
 </h1>
 <h2 class="subtitle">Who do you want to see?</h2>
 <br>
-<<section>
-  <h3>
-    {% for name in render_subjects %}
-      <p>
-        <a href="{{ url_for('main.update', subject=name) }}">
-            - {{ name }}
-        </a>
-      </p>
-  </h3>
-</section>
+<h3>
+  {% for name in render_subjects %}
+    <p><em>
+      <a href="{{ url_for('main.update', subject=name) }}">
+          - {{ name }}
+      </a>
+    </em></p>
   {% endfor %}
+</h3>
+  
 
 {% endblock %}
