@@ -1,10 +1,10 @@
-.fade-out {
-  animation: fadeOut ease 3s;
-  -webkit-animation: fadeOut ease 3s;
-  -moz-animation: fadeOut ease 3s;
-  -o-animation: fadeOut ease 3s;
-  -ms-animation: fadeOut ease 3s;
-}
+/*.fade-out {*/
+/*  animation: fadeOut ease 3s;*/
+/*  -webkit-animation: fadeOut ease 3s;*/
+/*  -moz-animation: fadeOut ease 3s;*/
+/*  -o-animation: fadeOut ease 3s;*/
+/*  -ms-animation: fadeOut ease 3s;*/
+/*}*/
 /*@keyframes fadeOut {*/
 /*  0% {*/
 /*    opacity:1;*/
@@ -65,3 +65,9 @@
 /*    -o-transition: opacity 3s ease-in-out;*/
 /*     opacity: 1;*/
 /*}*/
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
+}
