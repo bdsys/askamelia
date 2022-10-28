@@ -278,11 +278,11 @@ def create_post():
 def delete(subject):
     
     aa_api_delete_ddb_item_by_pk_url = os.getenv('AA_API_DELETE_DDB_ITEM_BY_PK_URL')
-    
     aa_api_delete_ddb_item_by_pk_request_body_dict = { 
         'pk': subject,
     }
     
+    print("Calling API...")
     response_aa_api_update_ddb_item_by_pk = requests.post(
         aa_api_delete_ddb_item_by_pk_url, 
         json=aa_api_delete_ddb_item_by_pk_request_body_dict,
