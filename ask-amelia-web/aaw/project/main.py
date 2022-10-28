@@ -47,7 +47,9 @@ def subject():
         print("Beautifying string...")
         character_count = 0
         for character in sanitized_string:
-            if character_count == 0 or capitalize_next_char:
+            if character_count == 0:
+                formatted_name = character.upper()
+            elif capitalize_next_char:
                 formatted_name = character.upper() + formatted_name
             else:
                 formatted_name = formatted_name + character
