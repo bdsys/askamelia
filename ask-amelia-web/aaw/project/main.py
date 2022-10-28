@@ -276,5 +276,23 @@ def create_post():
 @main.route('/delete/<subject>')
 @login_required
 def delete(subject):
-    flash(f"{subject} would be deleted...but not yet implemented.")
+    
+    aa_api_delete_ddb_item_by_pk_url = os.getenv('AA_API_DELETE_DDB_ITEM_BY_PK_URL')
+    
+    aa_api_delete_ddb_item_by_pk_request_body_dict = { 
+        'pk': subject,
+    }
+    
+    response_aa_api_update_ddb_item_by_pk = requests.post(
+        aa_api_delete_ddb_item_by_pk_url, 
+        json=aa_api_delete_ddb_item_by_pk_request_body_dict,
+    )
+
+    # if status code...
+    
+    response_json_dict = response_aa_api_update_ddb_item_by_pk.json()
+    
+    print(f'DEBUG -- {response_json_dict}')
+    
+    flash(f"{subject} deleted!")
     return redirect(url_for('main.subject'))
