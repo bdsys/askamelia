@@ -128,6 +128,20 @@ class CdkStack(Stack):
             }
         )
         
+        # DynamoDB Table delete item with primary key
+        
+        api_delete_ddb_item_by_pk = _lambda.Function(
+            self, 'APIDeleteDdbItemByPk',
+            runtime = _lambda.Runtime.PYTHON_3_9,
+            code = _lambda.Code.from_asset('lambda'),
+            handler = 'api_delete_ddb_item_by_pk.lambda_handler', # <cdk_folder>/lambda/api_get_ddb_items_by_pk.py
+            environment = {
+                'RESERVED_KEY': "RESERVED_VALUE",
+                "ask_amelia_property_ddb_table": ask_amelia_property_ddb_table.table_name,
+                "ask_amelia_primary_key_static": "subject",
+            }
+        )
+        
         # Delivery
         
         # API for getting DDB table PKs
@@ -151,6 +165,13 @@ class CdkStack(Stack):
             handler = api_update_ddb_item_by_pk,
         )
         
+        # API for deleting DDB table item by PK
+        apigateway.LambdaRestApi(
+            self, 
+            "AskAmeliaAlexaAppApiDeleteItemByPk",
+            handler = api_delete_ddb_item_by_pk,
+        )
+        
         # Permissions
         # Alexa service principal perms to S3 bucket for Alexa app deployment
         self.skill_bucket.grant_read(self.alexa_appkit_role)
@@ -158,6 +179,7 @@ class CdkStack(Stack):
         ask_amelia_property_ddb_table.grant_read_write_data(api_get_ddb_items)
         ask_amelia_property_ddb_table.grant_read_write_data(api_get_ddb_items_by_pk)
         ask_amelia_property_ddb_table.grant_read_write_data(api_update_ddb_item_by_pk)
+        ask_amelia_property_ddb_table.grant_read_write_data(api_delete_ddb_item_by_pk)
 
 
 
