@@ -7,7 +7,12 @@ from flask_login import LoginManager # framework's session tracker
 db = SQLAlchemy()
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        static_url_path='',
+        static_folder='templates',
+        template_folder='static',
+    )
 
     app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
