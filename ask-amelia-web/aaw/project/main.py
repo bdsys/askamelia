@@ -45,12 +45,13 @@ def subject():
         print(f'Sanitized string -- {sanitized_string}')
         
         print("Beautifying string...")
-        character_count = 1
+        character_count = 0
         for character in sanitized_string:
-            if character_count == 1:
+            if character_count == 0:
                 formatted_name = character.upper()
             else:
                 formatted_name = formatted_name + character
+                
             character_count += 1
         
         print(f'Formatted name: {formatted_name}')
