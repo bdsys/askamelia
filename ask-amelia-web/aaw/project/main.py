@@ -274,7 +274,7 @@ def create_post():
 # @main.route('/delete', methods=['POST'])
 @main.route('/delete')
 @login_required
-def delete_post():
-    subject = request.form.get('subject')
+def delete_post(subject):
+    
     flash(f"{subject} would be deleted...but not yet implemented.")
     return redirect(url_for('main.subject'))
