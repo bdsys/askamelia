@@ -40,6 +40,8 @@ def subject():
     num_names = 0
     for subject_name in response_json_dict:
         print(f"Name: {subject_name}")
+        for x in subject_name:
+            print(x)
         # print(f"Name: {subject_name['subject']}")
         num_names +=1
     
