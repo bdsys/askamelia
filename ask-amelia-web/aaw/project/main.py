@@ -37,6 +37,11 @@ def subject():
     render_subject = response_json_dict
     print(f'DEBUG -- response_json_dict -- {response_json_dict}')
     
+    num_names = 1
+    for subject_name in response_json_dict:
+        print(f'Name: {subject_name['subject']}')
+        num_names +=1
+    
     return render_template(
         'subject.html',
         render_subject=render_subject,
