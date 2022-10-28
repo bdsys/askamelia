@@ -25,7 +25,6 @@ def index():
 def subject():
 
     # Code here to show a simple list of subjects from DDB table
-    # Singular right now.
     
     aa_api_get_db_items_url = os.getenv('AA_API_GET_DB_ITEMS_URL')
     
@@ -33,18 +32,17 @@ def subject():
     
     response_json_dict = response_aa_api_get_db_items.json()
     
-    # render_subject = response_json_dict['subject']
-    render_subject = response_json_dict
     print(f'DEBUG -- response_json_dict -- {response_json_dict}')
     
-    num_names = 0
+    num_names = 1
     for subject_name in response_json_dict:
-        print(response_json_dict[subject_name]['subject'])
+        print(f"Name {num_names}: {response_json_dict[subject_name]['subject']}")
+        render_subjects += response_json_dict[subject_name]['subject']
         num_names +=1
     
     return render_template(
         'subject.html',
-        render_subject=render_subject,
+        render_subjects=render_subjects
     )
 
 # https://pythonbasics.org/flask-tutorial-routes/
