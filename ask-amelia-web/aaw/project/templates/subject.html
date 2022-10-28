@@ -10,7 +10,7 @@
 
   {% for name in render_subjects %}
     <!--<p>- {{ name }}</p>-->
-    <a href="{{ url_for('subject.subject', subject=name) }}">
+    <a href="{{ url_for('main.subject', subject=name) }}">
         - {{ name }}
     </a>
   {% endfor %}
