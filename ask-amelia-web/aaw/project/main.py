@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
-import requests, os, json
+import requests, os
 from . import db
 
 main = Blueprint('main', __name__)
@@ -31,7 +31,7 @@ def subject():
     
     response_aa_api_get_db_items = requests.get(aa_api_get_db_items_url)
     
-    response_json_dict = json.loads(response_aa_api_get_db_items.json())
+    response_json_dict = response_aa_api_get_db_items.json()
     
     # render_subject = response_json_dict['subject']
     render_subject = response_json_dict
