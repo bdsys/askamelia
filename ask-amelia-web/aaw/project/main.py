@@ -4,22 +4,12 @@ import requests, os
 from . import db
 
 main = Blueprint('main', __name__)
-
-# @main.route('/')
-# def index():
-#     return render_template('index.html')
     
+# 301 to invitation screen
 @main.route('/')
 def index():
     return redirect(url_for('auth.invitation'))
 
-# @main.route('/profile')
-# @login_required # Decorator to protect route from unauthenticated users
-# def profile():
-#     # curent_user represents the ORM object, User in this case, that login_manager
-#     # used to authenticate the user via signed cookie on the client side
-#     return render_template('profile.html', name=current_user.name)
-    
 @main.route('/subject')
 @login_required # Decorator to protect route from unauthenticated users
 def subject():
