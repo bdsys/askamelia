@@ -53,10 +53,10 @@
     color: #FFFFFF;
     text-align: center;
 
-    -webkit-transition: opacity 3s ease-out;
-    -moz-transition: opacity 3s ease-out;
-    -ms-transition: opacity 3s ease-out;
-    -o-transition: opacity 3s ease-out;
+    -webkit-transition: opacity 3s ease-in-out;
+    -moz-transition: opacity 3s ease-in-out;
+    -ms-transition: opacity 3s ease-in-out;
+    -o-transition: opacity 3s ease-in-out;
      opacity: 1;
 }
 
