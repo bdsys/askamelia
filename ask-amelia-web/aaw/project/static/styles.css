@@ -51,23 +51,23 @@
 
 
 
-/*.successfully-saved.hide-opacity{*/
-/*    opacity: 0;*/
-/*}*/
-
-/*.successfully-saved {*/
-/*    color: #FFFFFF;*/
-/*    text-align: center;*/
-
-/*    -webkit-transition: opacity 3s ease-in-out;*/
-/*    -moz-transition: opacity 3s ease-in-out;*/
-/*    -ms-transition: opacity 3s ease-in-out;*/
-/*    -o-transition: opacity 3s ease-in-out;*/
-/*     opacity: 1;*/
-/*}*/
-
-.hidden {
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s 2s, opacity 2s linear;
+.successfully-saved.hide-opacity{
+    opacity: 0;
 }
+
+.successfully-saved {
+    color: #FFFFFF;
+    text-align: center;
+
+    -webkit-transition: opacity 3s ease-in-out;
+    -moz-transition: opacity 3s ease-in-out;
+    -ms-transition: opacity 3s ease-in-out;
+    -o-transition: opacity 3s ease-in-out;
+     opacity: 1;
+}
+
+/*.hidden {*/
+/*  visibility: hidden;*/
+/*  opacity: 0;*/
+/*  transition: visibility 0s 2s, opacity 2s linear;*/
+/*}*/
