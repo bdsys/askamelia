@@ -38,7 +38,7 @@ def subject():
     num_names = 1
     for subject_name in response_json_dict:
         print(f"Name {num_names}: {response_json_dict[subject_name]['subject']}")
-        render_subjects += response_json_dict[subject_name]['subject']
+        render_subjects.append(response_json_dict[subject_name]['subject'])
         num_names +=1
     
     return render_template(
