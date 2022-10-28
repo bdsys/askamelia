@@ -10,8 +10,8 @@ def create_app():
     app = Flask(
         __name__,
         static_url_path='',
-        static_folder='templates',
-        template_folder='static',
+        static_folder='project/templates',
+        template_folder='project/static',
     )
 
     app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET')
