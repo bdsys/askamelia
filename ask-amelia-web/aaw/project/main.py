@@ -34,7 +34,7 @@ def subject():
     
     print(f'DEBUG -- response_json_dict -- {response_json_dict}')
     
-    render_subjects = ()
+    render_subjects = []
     num_names = 1
     for subject_name in response_json_dict:
         print(f"Name {num_names}: {response_json_dict[subject_name]['subject']}")
