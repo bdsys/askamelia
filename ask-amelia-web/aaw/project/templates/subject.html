@@ -9,10 +9,10 @@
 <h2>
   {% for name in render_subjects %}
   
-    <div class="buttons">
+    <div class="buttons has-addons is-centered">
       <button class="button is-primary is-large">
         <a href="{{ url_for('main.update', subject=name) }}">
-            - {{ name }}
+          {{ name }}
         </a>
       </button>
     </div>
