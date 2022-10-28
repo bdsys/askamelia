@@ -173,11 +173,106 @@ def update_post(subject):
     response_json_dict = response_aa_ddb_update_dict_favdogbreed.json()
     response_json_dict_ddb_updated = response_json_dict['operation_message']
     
-    render_subject = response_json_dict_ddb_updated['subject']
-    render_birth_date = response_json_dict_ddb_updated['birth_date']
-    render_favorite_color = response_json_dict_ddb_updated['favorite_color']
-    render_test_value = response_json_dict_ddb_updated['test_value']
-    render_favorite_dog_breed = response_json_dict_ddb_updated['favorite_dog_breed']
+    # render_subject = response_json_dict_ddb_updated['subject']
+    # render_birth_date = response_json_dict_ddb_updated['birth_date']
+    # render_favorite_color = response_json_dict_ddb_updated['favorite_color']
+    # render_test_value = response_json_dict_ddb_updated['test_value']
+    # render_favorite_dog_breed = response_json_dict_ddb_updated['favorite_dog_breed']
     
     flash('Updated!')
     return redirect(url_for('main.update', subject=subject))
+
+@main.route('/create', methods=['POST'])
+@login_required
+def create_post():
+    
+    subject = request.form.get('subject')
+    
+    print(f"Sanitizing subject -- {subject}")
+    
+    for character in subject:
+        if character.isdigit():
+            flash(f"{subject} contains numbers. Please only use alphabet characters.")
+            return redirect(url_for('main.subject'))
+    
+    subject = subject.lower()
+    subject = subject.replace(" ","_")
+    
+    print(f"Sanitized -- {subject}")
+    
+
+    form_input_subject = subject
+    form_input_birth_date = "unknown go to ask amelia web and tell me!"
+    form_input_favorite_color = "unknown go to ask amelia web and tell me!"
+    form_input_test_value = "unknown go to ask amelia web and tell me!"
+    form_input_favorite_dog_breed = "unknown go to ask amelia web and tell me!"
+    
+    aa_api_update_ddb_item_by_pk_url = os.getenv('AA_API_UPDATE_DDB_ITEM_BY_PK_URL')
+
+    aa_ddb_update_dict_birthdate = { 
+        "pk": 'subject',
+        "pk_value": subject,
+        "update_key": "birth_date",
+        'update_value': form_input_birth_date,
+    }
+    
+    aa_ddb_update_dict_favcolor = { 
+        "pk": 'subject',
+        "pk_value": subject,
+        "update_key": "favorite_color",
+        'update_value': form_input_favorite_color,
+    }
+    
+    aa_ddb_update_dict_testvalue = { 
+        "pk": 'subject',
+        "pk_value": subject,
+        "update_key": "test_value",
+        'update_value': form_input_test_value,
+    }
+    
+    aa_ddb_update_dict_favdogbreed = { 
+        "pk": 'subject',
+        "pk_value": subject,
+        "update_key": "favorite_dog_breed",
+        'update_value': form_input_favorite_dog_breed,
+    }
+    
+    response_aa_ddb_update_dict_birthdate = requests.post(
+        aa_api_update_ddb_item_by_pk_url, 
+        json=aa_ddb_update_dict_birthdate,
+    )
+
+    response_aa_ddb_update_dict_favcolor = requests.post(
+        aa_api_update_ddb_item_by_pk_url, 
+        json=aa_ddb_update_dict_favcolor,
+    )
+
+    response_aa_ddb_update_dict_testvalue = requests.post(
+        aa_api_update_ddb_item_by_pk_url, 
+        json=aa_ddb_update_dict_testvalue,
+    )
+
+    response_aa_ddb_update_dict_favdogbreed = requests.post(
+        aa_api_update_ddb_item_by_pk_url, 
+        json=aa_ddb_update_dict_favdogbreed,
+    )
+    
+    # Check status codes
+    # if status code ...
+    
+    response_json_dict = response_aa_ddb_update_dict_favdogbreed.json()
+    response_json_dict_ddb_updated = response_json_dict['operation_message']
+    
+    # render_subject = response_json_dict_ddb_updated['subject']
+    # render_birth_date = response_json_dict_ddb_updated['birth_date']
+    # render_favorite_color = response_json_dict_ddb_updated['favorite_color']
+    # render_test_value = response_json_dict_ddb_updated['test_value']
+    # render_favorite_dog_breed = response_json_dict_ddb_updated['favorite_dog_breed']
+    
+    return redirect(url_for('main.update', subject=subject))
+
+@main.route('/delete', methods=['POST'])
+@login_required
+def delete_post(subject):
+    flash(f"{subject} would be deleted...but not yet implemented.")
+    return redirect(url_for('main.subject'))

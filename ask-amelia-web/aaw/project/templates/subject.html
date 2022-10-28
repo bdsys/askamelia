@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  <div class="notification is-danger">
+  {{ messages[0] }}
+  </div>
+{% endif %}
+{% endwith %}
+
 <h1 class="title">
   Ask Amelia
 </h1>
@@ -15,10 +24,41 @@
           {{ render_subject_split[0] }}
         </a>
       </button>
+      <button class="button is-danger is-small">
+        <a href="{{ url_for('main.delete', subject=render_subject_split[1]) }}">
+          Delete
+        </a>
+      </button>
     </div>
-    
   {% endfor %}
 </h2>
-  
+
+<form method="post" action="/create">
+  <section class="section">
+    <div class="columns is-centered">
+    <div class="column is-narrow">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="control">
+                <input class="input is-primary" name="subject" type="text" placeholder="New name here">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </section>
+  <div class="buttons has-addons is-centered">
+    <button class="button is-large is-success" type="submit">Create</button>
+  </div>
+</form>
 
 {% endblock %}
