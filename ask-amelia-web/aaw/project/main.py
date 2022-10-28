@@ -38,9 +38,13 @@ def subject():
     num_names = 1
     for subject_name in response_json_dict:
         print(f"Name {num_names}: {response_json_dict[subject_name]['subject']}")
+        print("Sanitizing string...")
         
+        sanitized_string = response_json_dict[subject_name]['subject'].replace("_"," ")        
+        
+        print("Beautifying string...")
         character_count = 1
-        for character in response_json_dict[subject_name]['subject']:
+        for character in sanitized_string:
             if character_count == 1:
                 formatted_name = character.upper()
             else:
