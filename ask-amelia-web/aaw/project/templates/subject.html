@@ -8,12 +8,15 @@
 <br>
 <h2>
   {% for name in render_subjects %}
-    <p class="subtitle">
-      <a href="{{ url_for('main.update', subject=name) }}">
-          - {{ name }}
-      </a>
-    </p>
-    <br>
+  
+    <div class="buttons">
+      <button class="button is-primary is-large">
+        <a href="{{ url_for('main.update', subject=name) }}">
+            - {{ name }}
+        </a>
+      </button>
+    </div>
+    
   {% endfor %}
 </h2>
   
