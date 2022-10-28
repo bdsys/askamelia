@@ -4,13 +4,6 @@
 <h1 class="title">
   Ask Amelia
 </h1>
-    <div class="buttons has-addons is-right">
-      <button class="button is-primary">
-        Update
-      </button>
-    </div>
-
-
 <section class="section">
   <div class="columns is-centered">
   <div class="column is-narrow">
@@ -28,7 +21,7 @@
         <tr>
           <td>
             <div class="control">
-              <input class="input" type="text" value="Timber" readonly>
+              <input class="input" type="text" value="{{ render_subject }}" readonly>
             </div>
           </td>
           <td>
@@ -51,12 +44,11 @@
   </div>
   </div>
 </section>
-  
-  
+
+<button class="button is-large is-fullwidth">
+  <a href="{{ aa_api_update_ddb_item_by_pk_url }}">
+    Update
+  </a>  
+</button>
   
 {% endblock %}
-
-
-<div class="control">
-  <input class="input" type="text" value="This text is readonly" readonly>
-</div>
