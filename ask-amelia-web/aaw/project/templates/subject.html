@@ -11,7 +11,7 @@
     {% set render_subject_split = name.split(',') %}
     <div class="buttons has-addons is-centered">
       <button class="button is-primary is-large">
-        <a href="{{ url_for('main.update', subject=render_subject_split[1] }}">
+        <a href="{{ url_for('main.update', subject=render_subject_split[1]) }}">
           {{ render_subject_split[0] }}
         </a>
       </button>
