@@ -42,7 +42,7 @@ def subject():
         character_count = 1
         for character in response_json_dict[subject_name]['subject']:
             if character_count == 1:
-                formatted_name = character.uppeer()
+                formatted_name = character.upper()
             else:
                 formatted_name = formatted_name + character
         
