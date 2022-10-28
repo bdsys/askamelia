@@ -50,7 +50,7 @@ def subject():
             if character_count == 0:
                 formatted_name = character.upper()
             elif capitalize_next_char:
-                formatted_name = character.upper() + formatted_name
+                formatted_name =  formatted_name + character.upper()
             else:
                 formatted_name = formatted_name + character
                 
