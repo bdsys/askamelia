@@ -189,4 +189,5 @@ def update_post(subject):
     render_test_value = response_json_dict_ddb_updated['test_value']
     render_favorite_dog_breed = response_json_dict_ddb_updated['favorite_dog_breed']
     
+    flash('Updated!')
     return redirect(url_for('main.update', subject=subject))

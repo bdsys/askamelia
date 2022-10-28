@@ -5,6 +5,14 @@
   Ask Amelia
 </h1>
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  <div class="notification is-success">
+  {{ messages[0] }}
+  </div>
+{% endif %}
+{% endwith %}
+
 <form method="post">
   <section class="section">
     <div class="columns is-centered">
