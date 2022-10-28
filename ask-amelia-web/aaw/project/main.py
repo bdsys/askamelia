@@ -42,6 +42,8 @@ def subject():
         print(f"Name: {subject_name}")
         for x in subject_name:
             print(x)
+            for y in x:
+                print(y)
         # print(f"Name: {subject_name['subject']}")
         num_names +=1
     
