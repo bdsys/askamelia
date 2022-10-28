@@ -4,7 +4,6 @@
 <h1 class="title">
   Ask Amelia
 </h1>
-<form method="POST" action="/invitation">
   <section class="section">
     <div class="columns is-centered">
     <div class="column is-narrow">
@@ -25,27 +24,28 @@
                 <input class="input" type="text" value="{{ render_subject }}" readonly>
               </div>
             </td>
-            <td>
-              <div class="control">
-                <input class="input is-primary" name="form_input_birth_date" type="text" placeholder="{{ render_birth_date }}">
-              </div>
-            </td>
-            <td>
-              <input class="input is-primary" name="form_input_favorite_color" type="text" placeholder="{{ render_favorite_color }}">
-            </td>
-            <td>
-              <input class="input is-primary" name="form_input_test_value" type="text" placeholder="{{ render_test_value }}">
-            </td>
-            <td>
-              <input class="input is-primary" name="form_input_favorite_dog_breed" type="text" placeholder="{{ render_favorite_dog_breed }}">
-            </td>
+            <form method="POST" action="/update/<subject>">
+              <td>
+                <div class="control">
+                  <input class="input is-primary" name="birthdate" type="text" placeholder="{{ render_birth_date }}">
+                </div>
+              </td>
+              <td>
+                <input class="input is-primary" name="favcolor" type="text" placeholder="{{ render_favorite_color }}">
+              </td>
+              <td>
+                <input class="input is-primary" name="testvalue" type="text" placeholder="{{ render_test_value }}">
+              </td>
+              <td>
+                <input class="input is-primary" name="favdogbreed" type="text" placeholder="{{ render_favorite_dog_breed }}">
+              </td>
+            </form>
           </tr>
         </tbody>
       </table>
     </div>
     </div>
   </section>
-</form>
 <button class="button is-large is-fullwidth is-primary">
     Update
 </button>
