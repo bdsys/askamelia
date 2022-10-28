@@ -40,7 +40,9 @@ def subject():
         print(f"Name {num_names}: {response_json_dict[subject_name]['subject']}")
         print("Sanitizing string...")
         
-        sanitized_string = response_json_dict[subject_name]['subject'].replace("_"," ")        
+        sanitized_string = response_json_dict[subject_name]['subject'].replace("_"," ")
+        
+        print(f'Sanitized string -- {sanitized_string}')
         
         print("Beautifying string...")
         character_count = 1
@@ -49,6 +51,7 @@ def subject():
                 formatted_name = character.upper()
             else:
                 formatted_name = formatted_name + character
+            character_count += 1
         
         print(f'Formatted name: {formatted_name}')
         render_subjects.append(formatted_name)
