@@ -73,17 +73,6 @@ class CdkStack(Stack):
 
         # App tier
         # Lambda resources
-        # Alexa app handler
-        _lambda.Function(
-            self, 'AskAmeliaHandler',
-            runtime=_lambda.Runtime.PYTHON_3_9,
-            code=_lambda.Code.from_asset('lambda'),
-            handler='alexa_ask_amelia.lambda_handler', # <cdk_folder>/lambda/alexa_ask_amelia.py
-            environment={
-                'RESERVED_KEY': "RESERVED_VALUE",
-            }
-        )
-        
         # DynamoDB Table get item scan
         
         api_get_ddb_items = _lambda.Function(
@@ -145,31 +134,52 @@ class CdkStack(Stack):
         # Delivery
         
         # API for getting DDB table PKs
-        apigateway.LambdaRestApi(
+        apigww_ask_amelia_alexa_app_api_get_pks = apigateway.LambdaRestApi(
             self, 
             "AskAmeliaAlexaAppApiGetPks",
             handler = api_get_ddb_items,
         )
         
         # API for getting DDB table items by PK
-        apigateway.LambdaRestApi(
+        apigw_ask_amelia_alexa_app_api_get_items_by_pk = apigateway.LambdaRestApi(
             self, 
             "AskAmeliaAlexaAppApiGetItemsByPk",
             handler = api_get_ddb_items_by_pk,
         )
         
         # API for updating DDB table item by PK
-        apigateway.LambdaRestApi(
+        apigw_ask_amelia_alexa_app_api_update_item_by_pk = apigateway.LambdaRestApi(
             self, 
             "AskAmeliaAlexaAppApiUpdateItemByPk",
             handler = api_update_ddb_item_by_pk,
         )
         
         # API for deleting DDB table item by PK
-        apigateway.LambdaRestApi(
+        apigw_ask_amelia_alexa_app_api_delete_item_by_pk = apigateway.LambdaRestApi(
             self, 
             "AskAmeliaAlexaAppApiDeleteItemByPk",
             handler = api_delete_ddb_item_by_pk,
+        )
+        
+        # Dependent Alexa resources
+        # Alexa app handler
+        ask_amelia_handler = _lambda.Function(
+            self, 'AskAmeliaHandler',
+            runtime=_lambda.Runtime.PYTHON_3_9,
+            code=_lambda.Code.from_asset('lambda'),
+            handler='alexa_ask_amelia.lambda_handler', # <cdk_folder>/lambda/alexa_ask_amelia.py
+            environment={
+                'RESERVED_KEY': "RESERVED_VALUE",
+                # Use prod stage by default
+                'AA_API_GET_DB_ITEMS_URL': f"https://{apigww_ask_amelia_alexa_app_api_get_pks.rest_api_id}.execute-api.{self.region}.amazonaws.com/prod"
+            }
+        )
+        
+        # API for deleting DDB table item by PK
+        apigw_ask_amelia_alexa_app_api_gateway = apigateway.LambdaRestApi(
+            self, 
+            "AskAmeliaAlexaAppApiGateway",
+            handler = ask_amelia_handler,
         )
         
         # Permissions
@@ -180,8 +190,6 @@ class CdkStack(Stack):
         ask_amelia_property_ddb_table.grant_read_write_data(api_get_ddb_items_by_pk)
         ask_amelia_property_ddb_table.grant_read_write_data(api_update_ddb_item_by_pk)
         ask_amelia_property_ddb_table.grant_read_write_data(api_delete_ddb_item_by_pk)
-
-
 
         # Parameter and secret resources needed for upstream stacks
         vendor_id_param = ssm.StringParameter(self, "VendorIdParameter",

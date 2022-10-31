@@ -1,14 +1,41 @@
-import datetime
+import datetime, os, requests
+
+# Get a list of all "subject" keys
+# Code here to show a simple list of subjects from DDB table
+    
+aa_api_get_db_items_url = os.getenv('AA_API_GET_DB_ITEMS_URL')
+
+response_aa_api_get_db_items = requests.get(aa_api_get_db_items_url)
+
+response_json_dict = response_aa_api_get_db_items.json()
+
+print(f'DEBUG -- response_json_dict -- {response_json_dict}')
+
+print("Sanitizing returned subjects...")
+subject_list = []
+num_names = 1
+for subject_name in response_json_dict:
+    print(f"Name {num_names}: {response_json_dict[subject_name]['subject']}")
+    print("Sanitizing string...")
+    
+    sanitized_string = response_json_dict[subject_name]['subject'].replace("_"," ")
+    
+    print(f'Sanitized string -- {sanitized_string}')
+    
+    # Adding sanitized subject
+    subject_list.append(sanitized_string.lower())
+    # Adding sanitized subject pluarl variation
+    subject_list.append(sanitized_string.lower() + "s")
+    num_names +=1
+    
+print(f"Obtained subject_list -- {subject_list} subjects returned and sanitized")
+
 
 # Here we define our Lambda function and configure what it does when 
 # an event with a Launch, Intent and Session End Requests are sent. # The Lambda function responses to an event carrying a particular 
 # Request are handled by functions such as on_launch(event) and 
 # intent_scheme(event).
 def lambda_handler(event, context):
-    
-    print(f"DEBUG: {event}")
-    print(f"DEBUG: {context}")
-    
     if event['session']['new']:
         on_start()
     if event['request']['type'] == "LaunchRequest":
@@ -23,12 +50,12 @@ def on_start():
     print("Session Started.")
 
 def on_launch(event):
-    onlunch_MSG = "Hi, I can tell you about Amelia Cat. Me and her are close friends."
-    reprompt_MSG = "Try asking me how old Amelia is or what's her favorite kind of dog."
+    onlunch_MSG = "You an ask Amelia Cat about her or her friends and family. Try saying Ask Amelia Cat how old she is."
+    reprompt_MSG = "Try asking me Ask Amelia how old she is or Ask Amelia what her favorite kind of dog."
     # card_TEXT = "Pick a chess payer."
     # card_TITLE = "Choose a chess player."
-    card_TEXT = "This is card text."
-    card_TITLE = "This is card title."
+    card_TEXT = "Ask Amelia \n Try asking me Ask Amelia how old she is or Ask Amelia what her favorite kind of dog."
+    card_TITLE = "Ask Amelia"
     return output_json_builder_with_reprompt_and_card(onlunch_MSG, card_TEXT, card_TITLE, reprompt_MSG, False)
 
 def on_end():
@@ -44,7 +71,7 @@ def intent_scheme(event):
     intent_name = event['request']['intent']['name']
 
     if intent_name == "howOld":
-        return howOldGeneral(birthdate_yyyymmdd)
+        return howOldGeneral(event)
     elif intent_name == "howManyMonths":
         return howManyMonths(birthdate_yyyymmdd)
     elif intent_name == "howManyWeeks":
@@ -63,7 +90,13 @@ def intent_scheme(event):
 
 # Here we define the intent handler functions
 
-def howOldGeneral(birthdate_formatted):
+def howOldGeneral(event):
+    
+    suject=event['request']['intent']['slots']['player']['value']
+    subject_list
+    
+    birthdate_formatted = ""
+    
     reprompt_MSG = "Do you want to hear Amelia Cat's age again?"
     card_TITLE = "You've asked about Amelia's age. Ages less than 2 years will be reported in months. Otherwise, the age will be reported in years and months."
     
@@ -175,24 +208,24 @@ def favoriteTypeOfDog():
         False)
 
 def stop_the_skill(event):
-    stop_MSG = "Check back again to see how much Amelia has grown. Goodbye!"
+    stop_MSG = "Check back with Amelia Cat again soon!"
     reprompt_MSG = ""
-    card_TEXT = "Bye! Check back again to see how much Amelia has grown!"
-    card_TITLE = "Bye!"
+    card_TEXT = "Check back with Amelia Cat again soon!"
+    card_TITLE = "Check back soon!"
     return output_json_builder_with_reprompt_and_card(stop_MSG, card_TEXT, card_TITLE, reprompt_MSG, True)
     
 def assistance(event):
-    assistance_MSG = "Try asking me about Amelia Cat."
-    reprompt_MSG = "What do you want to know about Amelia Cat?"
-    card_TEXT = "You've asked for help."
-    card_TITLE = "Help"
+    assistance_MSG = "Try asking me Ask Amelia how old she is or Ask Amelia what her favorite kind of dog."
+    reprompt_MSG = "Try asking me Ask Amelia how old she is or Ask Amelia what her favorite kind of dog."
+    card_TEXT = "Try asking me Ask Amelia how old she is or Ask Amelia what her favorite kind of dog."
+    card_TITLE = "Assistance"
     return output_json_builder_with_reprompt_and_card(assistance_MSG, card_TEXT, card_TITLE, reprompt_MSG, False)
 
 def fallback_call(event):
     fallback_MSG = "I can't help you with that, try rephrasing the question or ask for help by saying HELP."
-    reprompt_MSG = "Do you want to know more about Amelia Cat?"
-    card_TEXT = "You've asked a wrong question."
-    card_TITLE = "Wrong question."
+    reprompt_MSG = "Try asking me Ask Amelia how old she is or Ask Amelia what her favorite kind of dog."
+    card_TEXT = "Try asking me Ask Amelia how old she is or Ask Amelia what her favorite kind of dog."
+    card_TITLE = "Unable to help with that."
     return output_json_builder_with_reprompt_and_card(fallback_MSG, card_TEXT, card_TITLE, reprompt_MSG, False)
     
 # The response of our Lambda function should be in a json format. 
