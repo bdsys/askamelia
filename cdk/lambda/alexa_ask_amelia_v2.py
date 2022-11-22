@@ -1,35 +1,5 @@
 import datetime, os, requests
 
-# Get a list of all "subject" keys
-# Code here to show a simple list of subjects from DDB table
-    
-aa_api_get_db_items_url = os.getenv('AA_API_GET_DB_ITEMS_URL')
-
-response_aa_api_get_db_items = requests.get(aa_api_get_db_items_url)
-
-response_json_dict = response_aa_api_get_db_items.json()
-
-print(f'DEBUG -- response_json_dict -- {response_json_dict}')
-
-print("Sanitizing returned subjects...")
-subject_list = []
-num_names = 1
-for subject_name in response_json_dict:
-    print(f"Name {num_names}: {response_json_dict[subject_name]['subject']}")
-    print("Sanitizing string...")
-    
-    sanitized_string = response_json_dict[subject_name]['subject'].replace("_"," ")
-    
-    print(f'Sanitized string -- {sanitized_string}')
-    
-    # Adding sanitized subject
-    subject_list.append(sanitized_string.lower())
-    # Adding sanitized subject pluarl variation
-    subject_list.append(sanitized_string.lower() + "s")
-    num_names +=1
-    
-print(f"Obtained subject_list -- {subject_list} subjects returned and sanitized")
-
 
 # Here we define our Lambda function and configure what it does when 
 # an event with a Launch, Intent and Session End Requests are sent. # The Lambda function responses to an event carrying a particular 
@@ -69,40 +39,94 @@ def on_end():
 def intent_scheme(event):
     
     intent_name = event['request']['intent']['name']
+    
+    print('Checking event for any slots...')
+    if event['request']['intent']['slots']:
+        print('Found slots in the event.')
+        print('Setting subject name to variable for requests...')
+        print('Checking if the slot was resolved...')
+        resolution_status_code = event['request']['intent']['slots']['subject']['resolutions']['resolutionsPerAuthority'][0]['status']['code']
+        
+        if resolution_status_code == "ER_SUCCESS_MATCH":
+            subject_name =event['request']['intent']['slots']['subject']['value']
+            
+        elif resolution_status_code == "ER_SUCCESS_NO_MATCH":
+            print('Unable to resolve slot!')
+            return stop_the_skill(event)
+                
+        else:
+            print('Unable to resolve slot! Unknown code.')
+            return stop_the_skill(event)
+                
+    else:
+        print('No slots found! Unable to use this skill without slots.')
+        return stop_the_skill(event)
+    
+
+
+# Alexa device request data model
+# 	"request": {
+# 		"type": "IntentRequest",
+# 		"requestId": "amzn1.echo-api.request.81a6ff44-6513-4e22-be51-3c39826e9a5c",
+# 		"locale": "en-US",
+# 		"timestamp": "2022-11-22T21:19:56Z",
+# 		"intent": {
+# 			"name": "favoriteColor",
+# 			"confirmationStatus": "NONE",
+# 			"slots": {
+# 				"subject": {
+# 					"name": "subject",
+# 					"value": "her",
+# 					"resolutions": {
+# 						"resolutionsPerAuthority": [
+# 							{
+# 								"authority": "amzn1.er-authority.echo-sdk.amzn1.ask.skill.e6ea2846-360e-4135-b33c-eb9f0a8b16ad.subjectName",
+# 								"status": {
+# 									"code": "ER_SUCCESS_MATCH" # or "ER_SUCCESS_NO_MATCH"
+# 								},
+#                               ...
+
+
+
+
+
 
     if intent_name == "howOld":
-        return howOldGeneral(event)
+        return howOldGeneral(subject_name)
+        
     elif intent_name == "howManyMonths":
-        return howManyMonths(birthdate_yyyymmdd)
+        return howManyMonths(subject_name)
+        
     elif intent_name == "howManyWeeks":
-        return howManyWeeks(birthdate_yyyymmdd)
+        return howManyWeeks(subject_name)
+        
     elif intent_name == "favoriteColor":
-        return favoriteColor()
+        return favoriteColor(subject_name)
+        
     elif intent_name == "favoriteTypeOfDog":
-        return favoriteTypeOfDog()
+        return favoriteTypeOfDog(subject_name)
         
     elif intent_name in ["AMAZON.NoIntent", "AMAZON.StopIntent", "AMAZON.CancelIntent"]:
         return stop_the_skill(event)
+        
     elif intent_name == "AMAZON.HelpIntent":
         return assistance(event)
+        
     elif intent_name == "AMAZON.FallbackIntent":
         return fallback_call(event)
 
 # Here we define the intent handler functions
 
-def howOldGeneral(event):
+def howOldGeneral(subject):
     
-    suject=event['request']['intent']['slots']['player']['value']
-    subject_list
-    
-    birthdate_formatted = ""
+    birthdate_formatted = get_formatted_birthdate_object_from_table(subject)
     
     reprompt_MSG = "Do you want to hear Amelia Cat's age again?"
     card_TITLE = "You've asked about Amelia's age. Ages less than 2 years will be reported in months. Otherwise, the age will be reported in years and months."
     
     today_date = datetime.date.today()
     years_old = today_date.year - birthdate_formatted.year
-    month_difference = today_date.month - birthdate_formatted.month - 1
+    month_difference = today_date.month - birthdate_formatted.month
     day_differene = birthdate_formatted.day - today_date.day
     weeks_difference = round(day_differene/7)
     days_remainder = day_differene%7
@@ -133,7 +157,10 @@ def howOldGeneral(event):
         string_response, card_TEXT, card_TITLE, reprompt_MSG, 
         False)
     
-def howManyMonths(birthdate_formatted):
+def howManyMonths(subject):
+    
+    birthdate_formatted = get_formatted_birthdate_object_from_table(subject)
+    
     reprompt_MSG = "Do you want to hear Amelia Cat's age in months again?"
     card_TITLE = "You've asked about Amelia's age in months."
     
@@ -154,7 +181,10 @@ def howManyMonths(birthdate_formatted):
         string_response, card_TEXT, card_TITLE, reprompt_MSG, 
         False)
 
-def howManyWeeks(birthdate_formatted):
+def howManyWeeks(subject):
+    
+    birthdate_formatted = get_formatted_birthdate_object_from_table(subject)
+    
     reprompt_MSG = "Do you want to hear Amelia Cat's age in weeks again?"
     card_TITLE = "You've asked about Amelia's age in weeks."
     card_TEXT = "You've asked about Amelia's age in weeks."
@@ -179,13 +209,37 @@ def howManyWeeks(birthdate_formatted):
         string_response, card_TEXT, card_TITLE, reprompt_MSG, 
         False)
         
-def favoriteColor():
-    reprompt_MSG = "Do you want to hear Amelia Cat's favorite color again?"
-    card_TITLE = "You've asked about Amelia's favorite color."
+def favoriteColor(subject):
+    reprompt_MSG = f"Do you want to hear {subject}'s favorite color again?"
+    card_TITLE = f"You've asked about {subject}'s favorite color."
+    
+    aa_api_get_db_item_by_pk_url = os.getenv('AA_API_GET_DB_ITEMS_BY_PK_URL')
+    
+    aa_ddb_get_item_by_pk_request_body_dict = { 
+        'pk': subject,
+    }
+    
+    response_aa_api_update_ddb_item_by_pk = requests.post(
+        aa_api_get_db_item_by_pk_url, 
+        json=aa_ddb_get_item_by_pk_request_body_dict,
+    )
+
+    # if status code...
+    
+    response_json_dict = response_aa_api_update_ddb_item_by_pk.json()
+    
+    print(f'DEBUG -- {subject}')
+    print(f'DEBUG -- {response_json_dict}')
+    
+    # render_subject = response_json_dict['subject']
+    # render_birth_date = response_json_dict['birth_date']
+    render_favorite_color = response_json_dict['favorite_color']
+    # render_test_value = response_json_dict['test_value']
+    # render_favorite_dog_breed = response_json_dict['favorite_dog_breed']
     
     # Dynamo code here
-    favorite_color = "red"
-    string_response = f"Amelia Cat's favorite color is {favorite_color}."
+    favorite_color = render_favorite_color
+    string_response = f"{subject}'s favorite color is {favorite_color}."
     
     card_TEXT = string_response
     print(f"Returning string: {string_response}")
@@ -193,13 +247,36 @@ def favoriteColor():
         string_response, card_TEXT, card_TITLE, reprompt_MSG, 
         False)
         
-def favoriteTypeOfDog():
+def favoriteTypeOfDog(subject):
     reprompt_MSG = "Do you want to hear Amelia Cat's favorite kind of dog again?"
     card_TITLE = "You've asked about Amelia's favorite kind of dogr."
     
-    # Dynamo code here
-    favorite_type_of_dog = "Corgi"
-    string_response = f"Amelia Cat's favorite kind of dog is a {favorite_type_of_dog}."
+    aa_api_get_db_item_by_pk_url = os.getenv('AA_API_GET_DB_ITEMS_BY_PK_URL')
+    
+    aa_ddb_get_item_by_pk_request_body_dict = { 
+        'pk': subject,
+    }
+    
+    response_aa_api_update_ddb_item_by_pk = requests.post(
+        aa_api_get_db_item_by_pk_url, 
+        json=aa_ddb_get_item_by_pk_request_body_dict,
+    )
+
+    # if status code...
+    
+    response_json_dict = response_aa_api_update_ddb_item_by_pk.json()
+    
+    print(f'DEBUG -- {subject}')
+    print(f'DEBUG -- {response_json_dict}')
+    
+    # render_subject = response_json_dict['subject']
+    # render_birth_date = response_json_dict['birth_date']
+    # render_favorite_color = response_json_dict['favorite_color']
+    # render_test_value = response_json_dict['test_value']
+    render_favorite_dog_breed = response_json_dict['favorite_dog_breed']
+    
+    favorite_type_of_dog = render_favorite_dog_breed
+    string_response = f"{subject}'s favorite kind of dog is a {favorite_type_of_dog}."
     
     card_TEXT = string_response
     print(f"Returning string: {string_response}")
@@ -265,5 +342,77 @@ def output_json_builder_with_reprompt_and_card(outputSpeach_text, card_text, car
     response_dict['response'] = response_field_builder_with_reprompt_and_card(outputSpeach_text, card_text, card_title, reprompt_text, value)
     return response_dict
 
-# Static birthdate for now. Will go in Dynamo DB Table later
-birthdate_yyyymmdd = datetime.datetime(2022, 6, 22)
+# Functions for getting DDB data
+
+def get_formatted_birthdate_object_from_table(subject):
+    
+    aa_api_get_db_item_by_pk_url = os.getenv('AA_API_GET_DB_ITEMS_BY_PK_URL')
+    
+    aa_ddb_get_item_by_pk_request_body_dict = { 
+        'pk': subject,
+    }
+    
+    response_aa_api_update_ddb_item_by_pk = requests.post(
+        aa_api_get_db_item_by_pk_url, 
+        json=aa_ddb_get_item_by_pk_request_body_dict,
+    )
+
+    # if status code...
+    
+    response_json_dict = response_aa_api_update_ddb_item_by_pk.json()
+    
+    print(f'DEBUG -- {subject}')
+    print(f'DEBUG -- {response_json_dict}')
+    
+    # render_subject = response_json_dict['subject']
+    render_birth_date = response_json_dict['birth_date']
+    # render_favorite_color = response_json_dict['favorite_color']
+    # render_test_value = response_json_dict['test_value']
+    # render_favorite_dog_breed = response_json_dict['favorite_dog_breed']
+    render_birth_date_yyyy = render_birth_date[0] + render_birth_date[1] + render_birth_date[2] + render_birth_date[3]
+    render_birth_date_mm = render_birth_date[4] + render_birth_date[5]
+    render_birth_date_dd = render_birth_date[6] + render_birth_date[7]
+
+    birthdate_yyyymmdd = datetime.datetime(
+        int(render_birth_date_yyyy), 
+        int(render_birth_date_mm), 
+        int(render_birth_date_dd)
+    )
+    
+    return birthdate_yyyymmdd
+
+def get_name_from_table(name):
+    return None
+
+def get_list_of_names_from_table():
+    # Get a list of all "subject" keys
+    # Code here to show a simple list of subjects from DDB table
+        
+    aa_api_get_db_items_url = os.getenv('AA_API_GET_DB_ITEMS_URL')
+    
+    response_aa_api_get_db_items = requests.get(aa_api_get_db_items_url)
+    
+    response_json_dict = response_aa_api_get_db_items.json()
+    
+    print(f'DEBUG -- response_json_dict -- {response_json_dict}')
+    
+    print("Sanitizing returned subjects...")
+    subject_list = []
+    num_names = 1
+    for subject_name in response_json_dict:
+        print(f"Name {num_names}: {response_json_dict[subject_name]['subject']}")
+        print("Sanitizing string...")
+        
+        sanitized_string = response_json_dict[subject_name]['subject'].replace("_"," ")
+        
+        print(f'Sanitized string -- {sanitized_string}')
+        
+        # Adding sanitized subject
+        subject_list.append(sanitized_string.lower())
+        # Adding sanitized subject pluarl variation
+        subject_list.append(sanitized_string.lower() + "s")
+        num_names +=1
+        
+    print(f"Obtained subject_list -- {subject_list} subjects returned and sanitized")
+    
+    return subject_list

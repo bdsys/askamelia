@@ -175,6 +175,22 @@ class CdkStack(Stack):
             }
         )
         
+        # Alexa app handler v2 dev
+        ask_amelia_handler_v2_dev = _lambda.Function(
+            self, 'AskAmeliaHandlerV2Dev',
+            runtime=_lambda.Runtime.PYTHON_3_9,
+            code=_lambda.Code.from_asset('lambda'),
+            handler='alexa_ask_amelia_v2.lambda_handler', # <cdk_folder>/lambda/alexa_ask_amelia_v2.py
+            environment={
+                'RESERVED_KEY': "RESERVED_VALUE",
+                # Use prod stage by default
+                'AA_API_GET_DB_ITEMS_URL': f"https://{apigww_ask_amelia_alexa_app_api_get_pks.rest_api_id}.execute-api.{self.region}.amazonaws.com/prod",
+                'AA_API_GET_DB_ITEMS_BY_PK_URL': f"https://{apigw_ask_amelia_alexa_app_api_get_items_by_pk.rest_api_id}.execute-api.{self.region}.amazonaws.com/prod",
+                # 'AA_API_UPDATE_ITEMS_BY_PK_URL': f"https://{apigw_ask_amelia_alexa_app_api_update_item_by_pk.rest_api_id}.execute-api.{self.region}.amazonaws.com/prod",
+                # 'AA_API_DELETE_ITEM_BY_PK_URL': f"https://{apigw_ask_amelia_alexa_app_api_delete_item_by_pk.rest_api_id}.execute-api.{self.region}.amazonaws.com/prod",
+            }
+        )
+        
         # API for accessing Ask Amelia
         # 11/22/22 -- Doesn't work because Alexa needs a response back that
         ## AWS API Gateway can't provide.
@@ -235,14 +251,15 @@ class CdkStack(Stack):
             description = 'SSH Key EC2 resource for front web.',
             string_value ="Initial parameter value",
         )
+
+        # These cost money and aren't being used so commented for now        
+        # self.client_secret_sm = secretsmanager.Secret(self, "ClientSecret",
+        #     description = "Alexa developer client secret" 
+        # )
         
-        self.client_secret_sm = secretsmanager.Secret(self, "ClientSecret",
-            description = "Alexa developer client secret" 
-        )
-        
-        self.refresh_token_sm = secretsmanager.Secret(self, "RefreshToken",
-            description = "Alexa developer refresh token" 
-        )
+        # self.refresh_token_sm = secretsmanager.Secret(self, "RefreshToken",
+        #     description = "Alexa developer refresh token" 
+        # )
         
         dev_email_topic = sns.Topic(
             self, "dev_email_topic"

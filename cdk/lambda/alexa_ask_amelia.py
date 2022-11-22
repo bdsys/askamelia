@@ -69,11 +69,11 @@ def howOldGeneral(birthdate_formatted):
     
     today_date = datetime.date.today()
     years_old = today_date.year - birthdate_formatted.year
-    month_difference = today_date.month - birthdate_formatted.month - 1
+    month_difference = today_date.month - birthdate_formatted.month
     day_differene = birthdate_formatted.day - today_date.day
     weeks_difference = round(day_differene/7)
     days_remainder = day_differene%7
-
+    
     # If date is more than 2 years, return years
     
     if(years_old > 2):
