@@ -175,12 +175,14 @@ class CdkStack(Stack):
             }
         )
         
-        # API for deleting DDB table item by PK
-        apigw_ask_amelia_alexa_app_api_gateway = apigateway.LambdaRestApi(
-            self, 
-            "AskAmeliaAlexaAppApiGateway",
-            handler = ask_amelia_handler,
-        )
+        # API for accessing Ask Amelia
+        # 11/22/22 -- Doesn't work because Alexa needs a response back that
+        ## AWS API Gateway can't provide.
+        # apigw_ask_amelia_alexa_app_api_gateway = apigateway.LambdaRestApi(
+        #     self, 
+        #     "AskAmeliaAlexaAppApiGateway",
+        #     handler = ask_amelia_handler,
+        # )
         
         # Permissions
         # Alexa service principal perms to S3 bucket for Alexa app deployment
