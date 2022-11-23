@@ -28,12 +28,13 @@ class PipelineStack(Stack):
                 "Synth",
                 input=pipelines.CodePipelineSource.code_commit(repo, "main"),
                 commands=[
+                    "yum install docker", # Installs YUM packages needed for build
+                    "systemctl start docker", # Starts docker in order to pull and customize AL2 Python 3.9 image
                     "cd cdk/", # move to CDK base
                     "ls", # list dir to show whats up
                     "npm install -g aws-cdk",  # Installs the cdk cli on Codebuild
                     "cdk --version", # Check on version of CDK for potential troubleshooting
                     "pip install -r requirements.txt",  # Instructs Codebuild to install required packages
-                    "systemctl start docker", # Starts docker in order to pull and customize AL2 Python 3.9 image
                     "cdk synth", # Builds CDK app subject
                 ],
                 primary_output_directory='cdk/cdk.out',
