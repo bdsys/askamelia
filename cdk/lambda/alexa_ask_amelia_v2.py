@@ -1,5 +1,4 @@
-import datetime, os, requests
-
+import datetime, os, requests 
 
 # Here we define our Lambda function and configure what it does when 
 # an event with a Launch, Intent and Session End Requests are sent. # The Lambda function responses to an event carrying a particular 
@@ -62,8 +61,6 @@ def intent_scheme(event):
         print('No slots found! Unable to use this skill without slots.')
         return stop_the_skill(event)
     
-
-
 # Alexa device request data model
 # 	"request": {
 # 		"type": "IntentRequest",
@@ -85,10 +82,6 @@ def intent_scheme(event):
 # 									"code": "ER_SUCCESS_MATCH" # or "ER_SUCCESS_NO_MATCH"
 # 								},
 #                               ...
-
-
-
-
 
 
     if intent_name == "howOld":
@@ -382,6 +375,7 @@ def get_formatted_birthdate_object_from_table(subject):
     return birthdate_yyyymmdd
 
 def get_name_from_table(name):
+    print('Not yet implemented')
     return None
 
 def get_list_of_names_from_table():
