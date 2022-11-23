@@ -2,6 +2,7 @@
 
 from aws_cdk import (
     Stack,
+    BundlingOptions,
     aws_lambda as _lambda,
     # aws_lambda_event_sources as lambda_trigger, # Alexa isn't supported yet
     # as an event source.
@@ -14,6 +15,7 @@ from aws_cdk import (
     aws_apigateway as apigateway,
     RemovalPolicy,
 )
+
 from constructs import Construct
 
 class CdkStack(Stack):
@@ -179,7 +181,30 @@ class CdkStack(Stack):
         ask_amelia_handler_v2_dev = _lambda.Function(
             self, 'AskAmeliaHandlerV2Dev',
             runtime=_lambda.Runtime.PYTHON_3_9,
-            code=_lambda.Code.from_asset('lambda'),
+            # code=_lambda.Code.from_asset('lambda'),
+            
+            code=_lambda.Code.from_asset(
+                'lambda',
+                bundling=BundlingOptions(
+                    image=_lambda.Runtime.PYTHON_3_9.bundling_image,
+                    command=[
+                        "bash", 
+                        "-c", 
+                        "pip install -r requirements.txt -t /asset-output && cp -au . /asset-output"
+                    ]
+                )
+            ),
+            
+            # code=aws_lambda.Code.from_asset(
+            #     "function_source_dir",
+            #     bundling=core.BundlingOptions(
+            #         image=aws_lambda.Runtime.PYTHON_3_9.bundling_image,
+            #         command=[
+            #             "bash", "-c",
+            #             "pip install --no-cache -r requirements.txt -t /asset-output && cp -au . /asset-output"
+            #         ],
+            #     ),
+
             handler='alexa_ask_amelia_v2.lambda_handler', # <cdk_folder>/lambda/alexa_ask_amelia_v2.py
             environment={
                 'RESERVED_KEY': "RESERVED_VALUE",
