@@ -28,7 +28,6 @@ class PipelineStack(Stack):
                 "Synth",
                 input=pipelines.CodePipelineSource.code_commit(repo, "main"),
                 commands=[
-                    "yum install docker", # Installs YUM packages needed for build
                     "systemctl start docker", # Starts docker in order to pull and customize AL2 Python 3.9 image
                     "cd cdk/", # move to CDK base
                     "ls", # list dir to show whats up
